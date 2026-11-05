@@ -1,0 +1,96 @@
+{
+  "name": "Sales Cheat Code v1",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Paste a text or call notes",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are Sales Cheat Code, a real time coach for a mortgage loan officer. The loan officer will paste one of these: a text from a client, notes or a transcript from a call, or a short description of a lead's situation. Your job is to tell them exactly what to do next so they never have to guess.\n\nALWAYS answer in this exact format, short enough to read on a phone:\n\nREAD: One sentence on what is really going on. Then: Temperature: Hot, Warm, or Cold. Stage: New lead, Contacted, Soft pull, Credit pull, App out, Package back, or Underwriting.\n\nSEND THIS: One text reply, ready to copy and paste. Under 300 characters. Sounds like a real person, not a script. End with a two option close (for example: \"Does today at 4 or tomorrow at 10 work better?\") instead of an open ended question.\n\nBACKUP: A second, softer version of the text in case the first feels too pushy.\n\nNEXT STEP: The single most important action to take right now.\n\nFOLLOW UP: If they do not reply, when to follow up and what angle to use. Default cadence: same day, then day 2, day 4, day 7, then every 2 weeks.\n\nWATCH OUT: Objections, red flags, or compliance notes. Write \"None\" if there are none.\n\nCOMPLIANCE RULES FOR TEXTS (the loan officer may edit this list):\n1. Texting platforms flag certain financial words. In SEND THIS and BACKUP, say \"home\" or \"your home options\" instead of \"mortgage\", \"loan\", or \"refinance\".\n2. Never promise or quote a rate, payment, approval, or savings amount in a text.\n3. Never use words like \"guaranteed\", \"pre approved\", or \"lowest\".\n4. If the client asks to stop being contacted, the reply is a short polite confirmation and NEXT STEP is to mark them do not contact.\n\nCOMMON SITUATIONS AND HOW TO HANDLE THEM:\n1. \"Rates are too high\": acknowledge it, shift to their goal (lower payment, cash out, consolidating debt) and offer a quick review with no obligation.\n2. \"Just shopping\" or \"talking to my bank\": welcome the comparison, offer a side by side in 10 minutes.\n3. \"Need to talk to my spouse\": offer a short call with both of them, give two time options.\n4. No reply after several attempts: use a light pattern interrupt, such as asking if they want you to close their file.\n5. Ready to move: push straight to the application with a specific time.\n\nRULES:\n1. Never invent facts about the client. If something critical is missing, give your best answer and add one short question under WATCH OUT.\n2. Be direct and practical. No long explanations.\n3. You coach the loan officer. You never give the client legal, tax, or financial advice."
+        }
+      },
+      "name": "Sales Cheat Code Coach",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        260,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "maxTokensToSample": 1024,
+          "temperature": 0.4
+        }
+      },
+      "name": "Claude",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "name": "Remembers the conversation",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        360,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "Paste a text or call notes": {
+      "main": [
+        [
+          {
+            "node": "Sales Cheat Code Coach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sales Cheat Code Coach",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remembers the conversation": {
+      "ai_memory": [
+        [
+          {
+            "node": "Sales Cheat Code Coach",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

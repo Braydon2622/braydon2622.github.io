@@ -1,0 +1,156 @@
+{
+  "name": "Sales Cheat Code v4 - Scoreboard",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "scoreboard",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Open scoreboard",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "name": "Read leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        0
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Call Log",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "name": "Read call log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        440,
+        0
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Builds the Sales Cheat Code scoreboard page from the Leads and Call Log tabs.\nconst BASE = 'https://your-n8n-instance.app.n8n.cloud/webhook';\nconst GAPS = [0, 2, 2, 3, 7];               // same follow up schedule as v2\nconst SKIP = ['closed', 'do not contact', 'dead'];\nconst STAGES = ['New lead', 'Contacted', 'Soft pull', 'Credit pull', 'App out', 'Package back', 'Underwriting'];\nconst STAGE_XP = { 'app out': 50, 'package back': 60, 'underwriting': 75 };\nconst XP = { followUp: 10, call: 25, closed: 150 };\nconst LEVELS = ['Rookie', 'Dialer', 'Closer', 'Rainmaker', 'Top Producer', 'Legend'];\nconst PER_LEVEL = 250;\n\nconst tz = 'America/Detroit';\nconst today = DateTime.now().setZone(tz).startOf('day');\nconst parse = s => {\n  if (!s) return null;\n  for (const f of ['M/d/yyyy', 'MM/dd/yyyy', 'yyyy-MM-dd', 'M/d/yy']) {\n    const d = DateTime.fromFormat(String(s).trim(), f, { zone: tz });\n    if (d.isValid) return d.startOf('day');\n  }\n  return null;\n};\nconst esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\nconst low = s => String(s ?? '').trim().toLowerCase();\n\nconst leads = $('Read leads').all().map(i => i.json).filter(r => r.Name);\nconst calls = $('Read call log').all().map(i => i.json).filter(r => r.Lead);\nconst logged = ($('Open scoreboard').first().json.query || {}).logged || '';\n\n// ---------- score ----------\nlet followUps = 0, stageXp = 0, closed = 0;\nfor (const l of leads) {\n  followUps += parseInt(l.Attempts || 0, 10) || 0;\n  if (low(l.Status) === 'closed') { closed++; stageXp += XP.closed; }\n  else stageXp += STAGE_XP[low(l.Stage)] || 0;\n}\nconst xp = followUps * XP.followUp + calls.length * XP.call + stageXp;\nconst level = Math.floor(xp / PER_LEVEL) + 1;\nconst title = LEVELS[Math.min(level - 1, LEVELS.length - 1)];\nconst into = xp % PER_LEVEL;\n\n// ---------- streak: consecutive days with any activity ----------\nconst days = new Set();\nleads.forEach(l => { const d = parse(l['Last Contact']); if (d) days.add(d.toISODate()); });\ncalls.forEach(c => { const d = parse(c.Date); if (d) days.add(d.toISODate()); });\nlet streak = 0, cur = days.has(today.toISODate()) ? today : today.minus({ days: 1 });\nwhile (days.has(cur.toISODate())) { streak++; cur = cur.minus({ days: 1 }); }\n\n// ---------- today's quest ----------\nconst due = [], doneToday = [];\nfor (const l of leads) {\n  if (SKIP.includes(low(l.Status))) continue;\n  const attempts = parseInt(l.Attempts || 0, 10) || 0;\n  const last = parse(l['Last Contact']);\n  if (last && last.equals(today)) { doneToday.push(l); continue; }\n  const gap = attempts < GAPS.length ? GAPS[attempts] : 14;\n  const dueDate = last ? last.plus({ days: gap }) : today;\n  if (dueDate <= today) due.push({ ...l, attempts, overdue: Math.round(today.diff(dueDate, 'days').days) });\n}\nconst order = { hot: 0, warm: 1, cold: 2 };\ndue.sort((a, b) => (order[low(a.Temperature)] ?? 3) - (order[low(b.Temperature)] ?? 3) || b.overdue - a.overdue);\nconst questTotal = due.length + doneToday.length;\nconst questDone = doneToday.length;\n\n// ---------- pipeline ----------\nconst counts = STAGES.map(s => ({ s, n: leads.filter(l => low(l.Stage) === low(s) && !SKIP.includes(low(l.Status))).length }));\nconst maxN = Math.max(1, ...counts.map(c => c.n));\n\n// ---------- badges ----------\nconst badges = [\n  { name: 'First Contact', how: 'Log your first follow up', on: followUps >= 1 },\n  { name: 'Call Analyst', how: 'Analyze a call with v3', on: calls.length >= 1 },\n  { name: 'Grinder', how: 'Reach 25 follow ups', on: followUps >= 25 },\n  { name: 'Hot Streak', how: '5 day activity streak', on: streak >= 5 },\n  { name: 'Quest Clear', how: \"Clear a day's follow ups\", on: questTotal > 0 && questDone === questTotal },\n  { name: 'Closer', how: 'Close a deal', on: closed >= 1 },\n];\n\n// ---------- page ----------\nconst tempTag = t => `<span class=\"tag t-${esc(low(t) || 'none')}\">${esc(t || '?')}</span>`;\nconst dueRows = due.map(l => `\n  <li class=\"row\">\n    <div class=\"who\"><b>${esc(l.Name)}</b> ${tempTag(l.Temperature)}\n      <div class=\"meta\">${esc(l.Stage)} · attempt ${l.attempts + 1}${l.overdue > 0 ? ` · <em>${l.overdue}d overdue</em>` : ''}</div>\n      ${l.Notes ? `<div class=\"note\">${esc(l.Notes)}</div>` : ''}</div>\n    <a class=\"btn\" href=\"${BASE}/log-followup?name=${encodeURIComponent(l.Name)}&attempts=${l.attempts}\">LOG IT<small>+${XP.followUp} XP</small></a>\n  </li>`).join('') || `<li class=\"empty\">All clear. Nothing due right now.</li>`;\nconst doneRows = doneToday.map(l => `<li class=\"done\">${esc(l.Name)}</li>`).join('');\nconst pipe = counts.map(c => `\n  <div class=\"stage\"><span>${esc(c.s)}</span><div class=\"bar\"><i style=\"width:${(c.n / maxN) * 100}%\"></i></div><b>${c.n}</b></div>`).join('');\nconst callRows = calls.slice(-4).reverse().map(c => `\n  <li class=\"call\"><div><b>${esc(c.Lead)}</b> ${tempTag(c.Temperature)} <span class=\"meta\">${esc(c.Date)}</span></div>\n  <div class=\"note\">${esc(c['Next Step'])}</div></li>`).join('') || `<li class=\"empty\">No calls analyzed yet. Upload one with v3.</li>`;\nconst badgeHtml = badges.map(b => `<div class=\"badge ${b.on ? 'on' : ''}\"><b>${esc(b.name)}</b><span>${b.on ? 'Unlocked' : esc(b.how)}</span></div>`).join('');\n\nconst html = `<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Sales Cheat Code Scoreboard</title>\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;600&display=swap\">\n<style>\n:root{--bg:#0b0f1e;--panel:#141a33;--line:#2a3360;--fg:#e8ecff;--dim:#8e97c4;--gold:#ffcc4d;--green:#5cf28f;--hot:#ff5c7a;--warm:#ffab4d;--cold:#5cb8ff;\n--pixel:\"Press Start 2P\",ui-monospace,monospace;--mono:\"IBM Plex Mono\",ui-monospace,Menlo,monospace}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:14px;line-height:1.5;\nbackground-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:100% 3px}\n.wrap{max-width:980px;margin:0 auto;padding:24px 16px 48px;display:grid;gap:18px}\nh1{font-family:var(--pixel);font-size:clamp(16px,4vw,26px);margin:0;color:var(--gold);text-shadow:3px 3px 0 #b3401f;letter-spacing:1px}\nh2{font-family:var(--pixel);font-size:11px;margin:0 0 14px;color:var(--dim);letter-spacing:1px}\n.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between}\n.sub{color:var(--dim);font-size:12px;margin-top:8px}\n.hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}\n.panel{background:var(--panel);border:3px solid var(--line);padding:16px;min-width:0;box-shadow:4px 4px 0 #050711}\n.big{font-family:var(--pixel);font-size:20px;color:var(--fg);margin:4px 0 10px}\n.big small{font-size:10px;color:var(--gold);margin-left:6px}\n.meter{height:14px;border:2px solid var(--line);background:#0a0d1a;position:relative}\n.meter i{position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(90deg,var(--gold) 0 10px,#e0a92b 10px 12px)}\n.meter.g i{background:repeating-linear-gradient(90deg,var(--green) 0 10px,#3cc46e 10px 12px)}\n.cap{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-top:6px}\n.flame{display:inline-flex;gap:4px;margin-top:2px}.flame i{width:12px;height:12px;background:var(--line)}.flame i.on{background:var(--hot);box-shadow:0 0 8px var(--hot)}\n.grid{display:grid;grid-template-columns:3fr 2fr;gap:18px}\n@media(max-width:760px){.grid{grid-template-columns:1fr}}\nul{list-style:none;margin:0;padding:0;display:grid;gap:10px}\n.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;background:#0f1430;border:2px solid var(--line)}\n.who{min-width:0}.meta{color:var(--dim);font-size:12px}.meta em{color:var(--hot);font-style:normal}\n.note{font-size:12.5px;color:#c3c9ec;margin-top:4px}\n.tag{font-family:var(--pixel);font-size:8px;padding:3px 5px;margin-left:6px;vertical-align:2px;border:2px solid currentColor}\n.t-hot{color:var(--hot)}.t-warm{color:var(--warm)}.t-cold{color:var(--cold)}.t-none{color:var(--dim)}\n.btn{flex:none;font-family:var(--pixel);font-size:10px;color:#0b0f1e;background:var(--green);padding:10px 12px;text-decoration:none;text-align:center;box-shadow:3px 3px 0 #1d7a43;display:grid;gap:6px}\n.btn small{font-size:7px}.btn:hover{filter:brightness(1.1)}.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d7a43}\n.btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}\n.done{color:var(--dim);text-decoration:line-through;font-size:13px}\n.empty{color:var(--dim);padding:8px 0}\n.stage{display:grid;grid-template-columns:96px 1fr 22px;gap:10px;align-items:center;font-size:12px;margin-bottom:8px}\n.stage .bar{height:12px;background:#0a0d1a;border:2px solid var(--line)}.stage .bar i{display:block;height:100%;background:var(--cold)}\n.stage b{font-family:var(--pixel);font-size:10px;text-align:right}\n.call{padding-bottom:10px;border-bottom:2px dashed var(--line)}.call:last-child{border:0}\n.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}\n.badge{border:2px dashed var(--line);padding:10px;display:grid;gap:4px;color:var(--dim)}\n.badge b{font-family:var(--pixel);font-size:9px}.badge span{font-size:11px}\n.badge.on{border:2px solid var(--gold);color:var(--gold);background:rgba(255,204,77,.06)}.badge.on span{color:var(--fg)}\n.toast{font-family:var(--pixel);font-size:11px;background:var(--green);color:#0b0f1e;padding:12px 14px;box-shadow:4px 4px 0 #1d7a43}\n.rules{color:var(--dim);font-size:12px}\n@media(prefers-reduced-motion:no-preference){.toast{animation:pop .5s steps(4)}@keyframes pop{from{transform:scale(.8)}to{transform:none}}}\n</style></head><body><div class=\"wrap\">\n${logged ? `<div class=\"toast\">+${XP.followUp} XP · FOLLOW UP LOGGED: ${esc(logged)}</div>` : ''}\n<div class=\"top\"><div><h1>SALES CHEAT CODE</h1><div class=\"sub\">Scoreboard · ${today.toFormat('cccc, LLL d')} · live from your lead sheet</div></div></div>\n<div class=\"hud\">\n  <div class=\"panel\"><h2>LEVEL</h2><div class=\"big\">LV ${level}<small>${esc(title.toUpperCase())}</small></div>\n    <div class=\"meter\"><i style=\"width:${(into / PER_LEVEL) * 100}%\"></i></div><div class=\"cap\"><span>${xp} XP</span><span>${PER_LEVEL - into} to LV ${level + 1}</span></div></div>\n  <div class=\"panel\"><h2>DAILY QUEST</h2><div class=\"big\">${questDone}/${questTotal}<small>FOLLOW UPS</small></div>\n    <div class=\"meter g\"><i style=\"width:${questTotal ? (questDone / questTotal) * 100 : 100}%\"></i></div><div class=\"cap\"><span>Clear the list</span><span>${questTotal - questDone} left</span></div></div>\n  <div class=\"panel\"><h2>STREAK</h2><div class=\"big\">${streak}<small>DAY${streak === 1 ? '' : 'S'}</small></div>\n    <div class=\"flame\">${Array.from({ length: 7 }, (_, i) => `<i class=\"${i < streak ? 'on' : ''}\"></i>`).join('')}</div><div class=\"cap\"><span>Any follow up or call counts</span></div></div>\n</div>\n<div class=\"grid\">\n  <div class=\"panel\"><h2>DUE TODAY · HOTTEST FIRST</h2><ul>${dueRows}${doneRows}</ul></div>\n  <div style=\"display:grid;gap:18px;align-content:start\">\n    <div class=\"panel\"><h2>PIPELINE</h2>${pipe}</div>\n    <div class=\"panel\"><h2>RECENT CALLS · +${XP.call} XP EACH</h2><ul>${callRows}</ul></div>\n  </div>\n</div>\n<div class=\"panel\"><h2>BADGES</h2><div class=\"badges\">${badgeHtml}</div></div>\n<div class=\"rules\">XP: follow up +${XP.followUp} · call analyzed +${XP.call} · app out +50 · package back +60 · underwriting +75 · closed +${XP.closed}. Every ${PER_LEVEL} XP is a new level.</div>\n</div></body></html>`;\n\nreturn [{ json: { html } }];\n"
+      },
+      "name": "Build the scoreboard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Show the page",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Open scoreboard": {
+      "main": [
+        [
+          {
+            "node": "Read leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read leads": {
+      "main": [
+        [
+          {
+            "node": "Read call log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read call log": {
+      "main": [
+        [
+          {
+            "node": "Build the scoreboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build the scoreboard": {
+      "main": [
+        [
+          {
+            "node": "Show the page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Detroit"
+  }
+}

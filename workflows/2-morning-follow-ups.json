@@ -1,0 +1,189 @@
+{
+  "name": "Sales Cheat Code v2 - Morning Follow Ups",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "name": "Every weekday at 8am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "name": "Read lead list",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Finds every lead due for a follow up today.\n// Days to wait after the last contact, based on how many attempts were made:\n// 0 attempts = today, 1 = 2 days, 2 = 2 days, 3 = 3 days, 4 = 7 days, 5+ = every 14 days.\nconst GAPS = [0, 2, 2, 3, 7];\nconst SKIP = ['closed', 'do not contact', 'dead'];\nconst TEMP_ORDER = { hot: 0, warm: 1, cold: 2 };\nconst today = new Date(); today.setHours(0, 0, 0, 0);\nconst due = [];\nfor (const item of $input.all()) {\n  const r = item.json;\n  if (!r.Name) continue;\n  if (SKIP.includes(String(r.Status || '').trim().toLowerCase())) continue;\n  const attempts = parseInt(r.Attempts || 0, 10) || 0;\n  const gap = attempts < GAPS.length ? GAPS[attempts] : 14;\n  let dueDate = today;\n  if (r['Last Contact']) {\n    const d = new Date(r['Last Contact']);\n    if (!isNaN(d)) { d.setHours(0, 0, 0, 0); dueDate = new Date(d.getTime() + gap * 86400000); }\n  }\n  if (dueDate <= today) {\n    due.push({ json: { ...r, attempts, overdueDays: Math.round((today - dueDate) / 86400000) } });\n  }\n}\ndue.sort((a, b) => (TEMP_ORDER[String(a.json.Temperature).toLowerCase()] ?? 3) - (TEMP_ORDER[String(b.json.Temperature).toLowerCase()] ?? 3));\nreturn due;"
+      },
+      "name": "Find leads due today",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Sales Cheat Code, writing the next follow up text for a mortgage loan officer. Reply with ONLY the text message, nothing else.\n\nRules for the text:\n1. Under 300 characters, sounds like a real person, not a script.\n2. End with a two option close, for example \"Does today at 4 or tomorrow at 10 work better?\"\n3. Say \"home\" or \"your home options\" instead of \"mortgage\", \"loan\", or \"refinance\".\n4. Never mention a rate, payment, approval, or savings amount. Never say \"guaranteed\", \"pre approved\", or \"lowest\".\n5. Change the angle based on attempts: 0 to 1 attempts, friendly check in; 2 to 3, give a reason to talk now; 4 or more, a light pattern interrupt such as asking if they want you to close their file.\n\nLead name: {{ $json.Name }}\nStage: {{ $json.Stage }}\nTemperature: {{ $json.Temperature }}\nFollow up attempts so far: {{ $json.attempts }}\nLast contact: {{ $json['Last Contact'] }}\nNotes: {{ $json.Notes }}"
+      },
+      "name": "Draft each follow up text",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "maxTokensToSample": 800,
+          "temperature": 0.4
+        }
+      },
+      "name": "Claude",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.2,
+      "position": [
+        660,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Builds one email with every lead due today and its drafted text.\nconst leads = $('Find leads due today').all().map(i => i.json);\nconst texts = $input.all().map(i => (i.json.text || '').trim());\nconst esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\nconst color = t => ({ hot: '#b3261e', warm: '#a15c07', cold: '#3b5b8a' }[String(t).toLowerCase()] || '#555');\nconst rows = leads.map((l, i) => `\n  <tr><td style=\"padding:14px 0;border-bottom:1px solid #e3e6eb\">\n    <div style=\"font-size:16px;font-weight:700\">${esc(l.Name)}\n      <span style=\"font-size:12px;color:${color(l.Temperature)};margin-left:6px\">${esc(l.Temperature)}</span></div>\n    <div style=\"font-size:13px;color:#555\">${esc(l.Phone)} · ${esc(l.Stage)} · attempt ${l.attempts + 1}${l.overdueDays > 0 ? ` · <b>${l.overdueDays} days overdue</b>` : ''}</div>\n    <div style=\"margin-top:8px;padding:10px 12px;background:#f3f5f8;border-radius:6px;font-size:14px\">${esc(texts[i])}</div>\n  </td></tr>`).join('');\nconst html = `<div style=\"font-family:Arial,sans-serif;max-width:620px;color:#13233f\">\n  <h2 style=\"margin:0 0 4px\">Your follow ups for today</h2>\n  <p style=\"margin:0 0 10px;color:#555\">${leads.length} leads due, hottest first. After you text someone, update their Last Contact and Attempts in the sheet.</p>\n  <table style=\"width:100%;border-collapse:collapse\">${rows}</table></div>`;\nreturn [{ json: { subject: `Sales Cheat Code: ${leads.length} follow ups due today`, html } }];"
+      },
+      "name": "Build the morning email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "you@example.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "html",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "name": "Email me the list",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1100,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Every weekday at 8am": {
+      "main": [
+        [
+          {
+            "node": "Read lead list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read lead list": {
+      "main": [
+        [
+          {
+            "node": "Find leads due today",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find leads due today": {
+      "main": [
+        [
+          {
+            "node": "Draft each follow up text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Draft each follow up text": {
+      "main": [
+        [
+          {
+            "node": "Build the morning email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build the morning email": {
+      "main": [
+        [
+          {
+            "node": "Email me the list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Draft each follow up text",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Detroit"
+  }
+}

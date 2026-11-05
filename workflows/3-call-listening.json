@@ -1,0 +1,200 @@
+{
+  "name": "Sales Cheat Code v3 - Call Listening",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Sales Cheat Code: Analyze a Call",
+        "formDescription": "Upload a test call recording and get a recap, your next step, and a follow up text.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Lead name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Recording",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".mp3, .m4a, .wav, .webm, .mp4",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Upload a call",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "binaryPropertyName": "Recording",
+        "options": {}
+      },
+      "name": "Turn the call into text",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Sales Cheat Code, reviewing a recorded call between a mortgage loan officer and a client. Reply with ONLY valid JSON, no other text, using exactly these keys:\n{\"summary\": \"2 to 3 sentences on what happened\", \"temperature\": \"Hot, Warm, or Cold\", \"stage\": \"New lead, Contacted, Soft pull, Credit pull, App out, Package back, or Underwriting\", \"objections\": \"objections the client raised, or None\", \"next_step\": \"the single most important next action\", \"follow_up\": \"when to follow up, for example Tomorrow at 10am\", \"text_to_send\": \"a follow up text to send after the call\"}\n\nRules for text_to_send:\n1. Under 300 characters, sounds like a real person, not a script.\n2. End with a two option close, for example \"Does today at 4 or tomorrow at 10 work better?\"\n3. Say \"home\" or \"your home options\" instead of \"mortgage\", \"loan\", or \"refinance\".\n4. Never mention a rate, payment, approval, or savings amount. Never say \"guaranteed\", \"pre approved\", or \"lowest\".\n5. Change the angle based on attempts: 0 to 1 attempts, friendly check in; 2 to 3, give a reason to talk now; 4 or more, a light pattern interrupt such as asking if they want you to close their file.\n\nNever invent facts that are not in the call.\n\nPRIVACY RULE: Never include Social Security numbers, bank or card numbers, loan numbers, birthdates, license numbers, or passwords in any field. If the call contains them, write \"[sensitive info removed]\" instead.\n\nLead name: {{ $('Upload a call').item.json['Lead name'] }}\nTranscript:\n{{ $json.text }}"
+      },
+      "name": "Analyze the call",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "maxTokensToSample": 800,
+          "temperature": 0.4
+        }
+      },
+      "name": "Claude",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Turns Claude's answer into clean fields for the sheet and the email.\nlet raw = String($input.first().json.text || '').trim().replace(/^```(?:json)?/i, '').replace(/```$/, '').trim();\nlet a;\ntry { a = JSON.parse(raw); } catch (e) { a = { summary: raw, temperature: '', stage: '', objections: '', next_step: 'Review the call manually, the AI answer could not be read.', follow_up: '', text_to_send: '' }; }\nconst lead = $('Upload a call').first().json['Lead name'];\nconst today = new Date().toLocaleDateString('en-US', { timeZone: 'America/Detroit' });\nconst esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\nconst row = (k, v) => `<tr><td style=\"padding:6px 12px 6px 0;color:#555;vertical-align:top;white-space:nowrap\">${k}</td><td style=\"padding:6px 0\">${esc(v)}</td></tr>`;\nconst html = `<div style=\"font-family:Arial,sans-serif;max-width:620px;color:#13233f\">\n  <h2 style=\"margin:0 0 10px\">Call recap: ${esc(lead)}</h2>\n  <table style=\"border-collapse:collapse;font-size:14px\">\n  ${row('Temperature', a.temperature)}${row('Stage', a.stage)}${row('Summary', a.summary)}${row('Objections', a.objections)}${row('Next step', a.next_step)}${row('Follow up', a.follow_up)}</table>\n  <p style=\"margin:14px 0 4px;font-weight:700\">Text to send</p>\n  <div style=\"padding:10px 12px;background:#f3f5f8;border-radius:6px;font-size:14px\">${esc(a.text_to_send)}</div></div>`;\nreturn [{ json: {\n  Date: today, Lead: lead, Temperature: a.temperature, Stage: a.stage, Summary: a.summary,\n  Objections: a.objections, 'Next Step': a.next_step, 'Follow Up': a.follow_up, 'Text To Send': a.text_to_send,\n  subject: `Call recap: ${lead} (${a.temperature || 'review'})`, html\n} }];"
+      },
+      "name": "Organize the results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "options": {},
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {}
+        }
+      },
+      "name": "Log it in the Call Log tab",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        880,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "you@example.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "html",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "name": "Email me the recap",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        100
+      ]
+    }
+  ],
+  "connections": {
+    "Upload a call": {
+      "main": [
+        [
+          {
+            "node": "Turn the call into text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn the call into text": {
+      "main": [
+        [
+          {
+            "node": "Analyze the call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze the call": {
+      "main": [
+        [
+          {
+            "node": "Organize the results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Organize the results": {
+      "main": [
+        [
+          {
+            "node": "Log it in the Call Log tab",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email me the recap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyze the call",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Detroit"
+  }
+}

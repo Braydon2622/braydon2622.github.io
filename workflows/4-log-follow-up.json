@@ -1,0 +1,145 @@
+{
+  "name": "Sales Cheat Code v4 - Log a Follow Up",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "log-followup",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Log a follow up",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Reads which lead was logged from the button link.\nconst q = $('Log a follow up').first().json.query || {};\nconst name = String(q.name || '').trim();\nif (!name) throw new Error('No lead name in the link');\nconst attempts = (parseInt(q.attempts || 0, 10) || 0) + 1;\nconst today = DateTime.now().setZone('America/Detroit').toFormat('MM/dd/yyyy');\nreturn [{ json: { Name: name, 'Last Contact': today, Attempts: attempts } }];"
+      },
+      "name": "Prepare the update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Last Contact": "={{ $json['Last Contact'] }}",
+            "Attempts": "={{ $json.Attempts }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "displayName": "Attempts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update the lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "redirect",
+        "redirectURL": "={{ 'https://your-n8n-instance.app.n8n.cloud/webhook/scoreboard?logged=' + encodeURIComponent($('Prepare the update').first().json.Name) }}",
+        "options": {}
+      },
+      "name": "Back to scoreboard",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Log a follow up": {
+      "main": [
+        [
+          {
+            "node": "Prepare the update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare the update": {
+      "main": [
+        [
+          {
+            "node": "Update the lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update the lead": {
+      "main": [
+        [
+          {
+            "node": "Back to scoreboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Detroit"
+  }
+}
