@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta property="og:title" content="Braydon Hart | AI Implementation & Enablement">
+<meta property="og:description" content="I build AI tools teams actually use. My AI sales assistant saves each rep on my team 30 minutes a day.">
+<meta property="og:image" content="https://braydonhartai.com/og.png">
+<meta property="og:url" content="https://braydonhartai.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Braydon Hart: I build AI tools that do real work and train people until they actually get used.">
 <title>Braydon Hart Portfolio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap">
@@ -109,6 +115,12 @@ p{margin:0}
 .gallery .shot.sketch img{object-fit:contain}
 .gallery .wide{grid-column:1/-1}
 .quote{border-left:3px solid var(--gold);padding:4px 0 4px 14px;font-size:15px;max-width:62ch}
+.result-line{font-size:14.5px;font-weight:600;border-left:3px solid var(--gold);padding:2px 0 2px 12px}
+.result-line span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-right:6px}
+.proof{font-size:13.5px;color:var(--muted)}.proof a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--gold)}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px;margin-top:6px}
+.skills div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:4px;min-width:0}
+.skills b{font-size:14.5px}.skills span{font-size:13.5px;color:var(--muted)}.skills a{font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);justify-self:start}
 @keyframes rise{from{transform:translateY(8px)}to{transform:none}}
 </style>
 <style>body{margin:0}img{max-width:100%}</style>
@@ -120,7 +132,7 @@ p{margin:0}
   <p class="eyebrow">Sales Director · AI Implementation</p>
   <h1>Braydon Hart</h1>
   <p class="thesis">I build AI systems that do real work, from a sales assistant my team uses daily to an AI crew that runs an Amazon store, and I train people until the tools <em>actually get used</em>.</p>
-  <div class="jump"><a class="primary" href="#projects">See my projects</a><a href="#building">What I'm building now</a></div>
+  <div class="jump"><a class="primary" href="#demo">Try my AI sales coach</a><a href="#projects">See my projects</a><a href="#playbook">My 90 day AI plan</a><a href="#building">What I'm building now</a></div>
   <div class="contact">
     <span>Metro Detroit · Open to remote</span>
     <a href="https://www.linkedin.com/in/braydon-hart-392336209/" target="_blank" rel="noopener">LinkedIn</a>
@@ -135,7 +147,7 @@ p{margin:0}
     <div><b>#1</b><span>closer at my company in 2023</span></div>
     <div><b>2</b><span>reps I trained who were promoted to leaders</span></div>
     <div><b>Top 1%</b><span>UWM award, 2024 and 2025</span></div>
-    <div><b>30–60</b><span>minutes saved per rep, per day, with my AI sales assistant (estimated)</span></div>
+    <div><b>4.5 hrs</b><span>saved across my team every day with my AI sales assistant (30 minutes per rep)</span></div>
   </div>
 </div>
 
@@ -147,7 +159,7 @@ p{margin:0}
       <p>I started as a loan officer in 2022 and became the top closer at my company in 2023. That led to a promotion to Director, where I've led a team of 9 loan officers since 2024.</p>
       <p>Leading the team taught me that my real strength is teaching. I learned to coach people to own their work instead of doing it for them, and two reps I trained have become leaders themselves.</p>
       <p>Along the way I started using AI to remove the busywork slowing my team down. I found that building the tool is only half the job. The other half is getting people to actually use it. That's the work I want to do full time.</p>
-      <p class="target"><b>Looking for:</b> AI implementation, AI enablement, or sales enablement roles. Remote or Metro Detroit.</p>
+      <p class="target"><b>Looking for:</b> AI implementation and enablement, training, operations, or creative product roles. Remote, Metro Detroit, or open to relocating for the right fit.</p>
     </div>
     <ul class="timeline" aria-label="Career">
       <li><b>Director, MortgagePros</b><span>Feb 2024 to present · leads 9 loan officers · team has closed 434 loans</span></li>
@@ -167,6 +179,105 @@ p{margin:0}
     <li><strong>Simplify after real use</strong><p>Cut whatever people skip. A simple tool that gets used beats a detailed one that doesn't.</p></li>
   </ol>
 </section>
+
+<section class="wrap" id="demo">
+  <p class="eyebrow">Try it yourself</p>
+  <h2>Ask the Sales Coach</h2>
+  <p style="color:var(--muted);max-width:62ch;margin-bottom:16px">Pick a situation my loan officers run into every week. You'll see an example of how my AI sales assistant answers a rep, built from its real instructions and in the exact format my team sees on their phones. The clients are made up.</p>
+  <div class="dm-pick" role="tablist" aria-label="Pick a client situation" id="dmPick"></div>
+  <div class="dm-stage">
+    <div class="dm-client"><span class="dm-label">Client texts the rep</span><div class="bubble in" id="dmClient"></div></div>
+    <div class="dm-out" id="dmOut" aria-live="polite"></div>
+  </div>
+  <p class="note-small" style="margin-top:10px">Compliance is built in: texts say "home" instead of "loan" or "refinance," never quote rates or approvals, and always end with a two option close.</p>
+</section>
+<style>
+.dm-pick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.dm-pick button{font:inherit;font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.dm-pick button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dm-pick button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.dm-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+@media (max-width:720px){.dm-stage{grid-template-columns:1fr}}
+.dm-label{display:block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.dm-out{display:grid;gap:10px;min-width:0}
+.dm-row{display:grid;gap:3px;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .35s ease}
+.dm-row.on{opacity:1;transform:none}
+.dm-row b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.dm-row p{font-size:14px}
+.dm-row .txt{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:14px}
+.dm-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.dm-tags span{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--gold-soft);color:var(--gold)}
+@media (prefers-reduced-motion:reduce){.dm-row{transition:none}}
+</style>
+<script>
+(function(){
+const S=[
+ {k:"Rates too high",c:"Honestly rates are just too high right now. I think we're going to wait.",
+  read:"Not a no. They're anchored on the headline rate and haven't connected it to their actual goal yet.",t:"Warm",s:"Contacted",
+  send:"Totally get it, nobody wants to overpay. Most people I talk to care more about the monthly number than the rate itself. Want me to run a quick side by side so you can see what makes sense? Does today at 4 or tomorrow at 10 work better?",
+  backup:"No pressure at all. If it helps, I can send a quick comparison you can look at whenever. Want me to text it over?",
+  next:"Ask what they're really trying to do: lower payment, cash out, or pay off debt.",
+  fu:"No reply: day 2 with a goal based angle (\"Still thinking about consolidating those cards?\").",
+  watch:"Don't promise a rate or payment in the text. Save numbers for the call."},
+ {k:"Just shopping around",c:"I'm just shopping around right now, my bank is looking at it too.",
+  read:"Comparing options, which means they're active. The goal is to be the easy, fast option.",t:"Warm",s:"Contacted",
+  send:"Smart move, you should compare. I can put together a side by side in about 10 minutes so you can see everything clearly next to your bank's offer. Does today at 4 or tomorrow at 10 work better?",
+  backup:"Totally fair. Whenever your bank sends their numbers, send them my way and I'll make sure you're seeing the full picture.",
+  next:"Book the comparison call before the bank gets back to them.",
+  fu:"Same day if no reply, then day 2: \"Did your bank send anything over yet?\"",
+  watch:"Never talk down the bank. Position as a second set of eyes."},
+ {k:"Talk to my spouse",c:"Sounds good but I need to talk to my wife first before we do anything.",
+  read:"Interested and moving, but the decision is shared. If she isn't on the call, it stalls.",t:"Hot",s:"Soft pull",
+  send:"Of course, it's a big decision for both of you. Want to hop on a quick 15 minute call together so she can ask anything she wants? Does tonight at 6 or tomorrow at 7 work better?",
+  backup:"Makes total sense. Want me to send a short summary you two can go over together?",
+  next:"Get both decision makers on one call.",
+  fu:"Tomorrow evening if no reply: \"Did you two get a chance to talk it over?\"",
+  watch:"Don't push for an app before the spouse has bought in."},
+ {k:"Ghosted after 4 tries",c:"(No reply to the last 4 follow ups.)",
+  read:"Gone quiet. Usually timing or overwhelm, not a hard no.",t:"Cold",s:"Contacted",
+  send:"Hey, I don't want to keep bugging you. Should I close out your file for now, or are you still looking at your home options?",
+  backup:"Totally understand if life got busy. Just reply \"later\" and I'll check back next month.",
+  next:"Send the pattern interrupt, then move to the every 2 weeks cadence.",
+  fu:"If still silent, check back in 14 days with something new.",
+  watch:"If they reply stop, confirm politely and mark Do Not Contact."},
+ {k:"Ready to move",c:"Ok I think we're ready. What do you need from me?",
+  read:"Buying signal. Speed wins here. Get them into the application today.",t:"Hot",s:"App out",
+  send:"Love it! The next step is a quick application, about 15 minutes, and I'll walk you through it. Does today at 4 or tomorrow at 10 work better?",
+  backup:"Awesome. I can send the link now and stay on the phone with you while you fill it out. Want me to call?",
+  next:"Lock a specific time for the application today.",
+  fu:"If no reply in 2 hours, call. Hot leads go cold fast.",
+  watch:"Don't say \"pre approved\" or promise approval in the text."},
+ {k:"Asks to stop",c:"Please stop texting me.",
+  read:"Clear opt out. Respect it right away.",t:"Cold",s:"Contacted",
+  send:"Understood, I'll stop reaching out. Thanks for letting me know, and best of luck!",
+  backup:"None needed.",
+  next:"Mark the lead Do Not Contact in the CRM now.",
+  fu:"None. Do not follow up.",
+  watch:"Opt outs must be honored. This is a compliance requirement."}
+];
+const pick=document.getElementById('dmPick'),cl=document.getElementById('dmClient'),out=document.getElementById('dmOut');
+let timers=[];
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function show(i){
+  timers.forEach(clearTimeout);timers=[];
+  [...pick.children].forEach((b,j)=>b.setAttribute('aria-selected',String(i===j)));
+  const x=S[i];cl.textContent=x.c;
+  const rows=[
+   ['Read','<p>'+esc(x.read)+'</p><div class="dm-tags"><span>Temperature: '+x.t+'</span><span>Stage: '+x.s+'</span></div>'],
+   ['Send this','<div class="txt">'+esc(x.send)+'</div>'],
+   ['Backup','<div class="txt">'+esc(x.backup)+'</div>'],
+   ['Next step','<p>'+esc(x.next)+'</p>'],
+   ['Follow up','<p>'+esc(x.fu)+'</p>'],
+   ['Watch out','<p>'+esc(x.watch)+'</p>']];
+  out.innerHTML='<span class="dm-label">What the AI tells the rep</span>'+rows.map(r=>'<div class="dm-row"><b>'+r[0]+'</b>'+r[1]+'</div>').join('');
+  const els=out.querySelectorAll('.dm-row');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  els.forEach((e,k)=>{ if(reduce){e.classList.add('on')} else timers.push(setTimeout(()=>e.classList.add('on'),120+k*220)); });
+}
+S.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=x.k;b.onclick=()=>show(i);pick.appendChild(b)});
+show(0);
+})();
+</script>
 
 <section class="wrap" id="projects">
   <p class="eyebrow">Selected work</p>
@@ -189,6 +300,8 @@ p{margin:0}
 
   <article class="case">
     <div class="case-head"><h3>Automated Sales System</h3><span class="status">Built in n8n · running</span></div>
+    <p class="result-line"><span>Result</span>4 connected workflows tested end to end: texts drafted every weekday at 8am, calls turned into recaps, follow ups turned into a game.</p>
+    <p class="proof">Proof: <a href="https://github.com/Braydon2622/braydon2622.github.io/tree/main/workflows" target="_blank" rel="noopener">the real n8n workflow files</a> · <a href="https://github.com/Braydon2622/braydon2622.github.io/blob/main/prompts.md" target="_blank" rel="noopener">the prompts behind them</a> · <a href="#demo">try the coach</a></p>
     <div class="flow" aria-label="Tools connected">
       <span class="ai">Claude</span><i>+</i><span class="ai">OpenAI</span><i>+</i><span>Google Sheets</span><i>+</i><span>Gmail</span><i>→</i><span class="ai">n8n workflows</span>
     </div>
@@ -224,6 +337,7 @@ p{margin:0}
 
   <article class="case">
     <div class="case-head"><h3>Stitch Bench</h3><span class="status">Live AI · working</span></div>
+    <p class="result-line"><span>Result</span>A photo in, validated machine files out, plus a thread list and cost per piece. The AI review loop catches problems before anything gets stitched.</p>
     <div class="flow" aria-label="How the AI design team works">
       <span>Photo or idea</span><i>→</i><span class="ai">AI designer drafts</span><i>→</i><span class="ai">Stitch inspector + art director review</span><i>→</i><span class="ai">Designer revises</span><i>→</i><span>Machine checks</span><i>→</i><span>Machine files</span>
     </div>
@@ -237,6 +351,7 @@ p{margin:0}
 
   <article class="case">
     <div class="case-head"><h3>Azoki Market</h3><span class="status">Live on Amazon</span></div>
+    <p class="result-line"><span>Result</span>Live on Amazon with 12 products, run by an AI crew. Anything that spends money waits for my approval.</p>
     <div class="flow" aria-label="How the store crew works">
       <span>Public domain art</span><i>→</i><span class="ai">AI crew builds listings</span><i>→</i><span>Printify</span><i>→</i><span>Amazon</span><i>→</i><span class="ai">Crew checks listings + reports sales</span>
     </div>
@@ -249,6 +364,7 @@ p{margin:0}
 
   <article class="case">
     <div class="case-head"><h3>LO Command Station</h3><span class="status">Live AI · prototype</span></div>
+    <p class="result-line"><span>Result</span>A working coaching prototype built privacy first: no borrower data is ever entered.</p>
     <div class="pbr">
       <div><h4>Problem</h4><p>Loan officers need daily coaching, ready to use scripts, and a plan for the day, but borrower data can't go into outside AI tools.</p></div>
       <div><h4>What I built</h4><p>A gamified command center where an AI lead (ATLAS) reads the loan officer's weekly goals and funnel, picks a focus, and sends missions to an AI crew that drafts templates and coaching. The loan officer approves everything that goes out.</p></div>
@@ -258,13 +374,15 @@ p{margin:0}
 
   <article class="case">
     <div class="case-head"><h3>Sales Cheat Code</h3><span class="status">Team trained · rebuilt in n8n</span></div>
+    <p class="result-line"><span>Result</span>9 of 9 reps use it daily. Each saves 30 minutes a day, 4.5 hours a day across the team.</p>
+    <p class="proof">Proof: <a href="#demo">try it yourself above</a></p>
     <div class="flow" aria-label="How the assistant works">
       <span>Loan officer call</span><i>→</i><span class="ai">AI listens</span><i>→</i><span class="ai">Suggests next step</span><i>→</i><span class="ai">Follow up reminder + reply ideas</span>
     </div>
     <div class="pbr">
       <div><h4>Problem</h4><p>Reps were guessing when to follow up and what to say back to client texts, so leads went cold and every rep handled the same situation differently.</p></div>
       <div><h4>What I built</h4><p>An AI assistant that listens to calls and tells the loan officer what to do next, reminds them when to follow up, and recommends how to answer a given text.</p></div>
-      <div><h4>Result</h4><p class="result">Trained my team of 9 on it, and all 9 use it daily. It made follow ups an estimated 20% faster and saves 30 to 60 minutes per rep per day.</p></div>
+      <div><h4>Result</h4><p class="result">Trained my team of 9 on it, and all 9 use it daily. It made follow ups an estimated 20% faster and saves each rep 30 minutes a day, 4.5 hours a day across the team.</p></div>
     </div>
   </article>
 
@@ -316,8 +434,9 @@ p{margin:0}
   <p class="eyebrow">Before AI</p>
   <h2>I've always built and sold things</h2>
   <p style="color:var(--muted);max-width:62ch;margin-bottom:8px">Long before AI, I was teaching myself whatever a project needed: product design, packaging, factories, online stores and ads.</p>
-  <article class="case">
+  <article class="case" id="vinyl">
     <div class="case-head"><h3>Vinyl collectible figure</h3><span class="status">Designed, made and sold · 2022</span></div>
+    <p class="result-line"><span>Result</span>Designed, manufactured overseas and sold to collectors in 2022, before I ever used AI.</p>
     <div class="flow" aria-label="How the figure was made">
       <span>My sketch</span><i>→</i><span>Box design</span><i>→</i><span>Overseas factory</span><i>→</i><span>Sample + changes</span><i>→</i><span>Final run</span><i>→</i><span>My website + Instagram ads</span><i>→</i><span>Collectors' shelves</span>
     </div>
@@ -339,10 +458,35 @@ p{margin:0}
   </div>
 </section>
 
+<section class="wrap" id="playbook">
+  <p class="eyebrow">If you hire me</p>
+  <h2>My first 90 days rolling out AI</h2>
+  <p style="color:var(--muted);max-width:62ch;margin-bottom:18px">The same playbook I used with my own team, written for yours. Tools change; the order of operations doesn't.</p>
+  <div class="parts">
+    <div><b>Days 1 to 30 · Listen and find the friction</b><span>Shadow the people doing the work. Map the workflows, time the manual steps, and pick the 2 or 3 tasks where people guess, repeat themselves, or wait. Learn the data and privacy rules before building anything, and record a baseline so we can measure the change.</span></div>
+    <div><b>Days 31 to 60 · Build small and pilot</b><span>Build simple tools with approved AI (Claude, ChatGPT, n8n automations) for those tasks. Pilot with a few early champions, train with their real situations, collect feedback every week, and cut anything people skip.</span></div>
+    <div><b>Days 61 to 90 · Roll out and measure</b><span>Train the whole team in short hands on sessions, run office hours, and publish a shared prompt and template library. Champions coach their peers. Report time saved, adoption and quality to leadership, then pick the next problem.</span></div>
+  </div>
+  <div class="pbr" style="margin-top:18px">
+    <div><h4>My rules</h4><p>Privacy first: sensitive data stays out. A person approves anything that reaches a customer. A simple tool that gets used beats a perfect one that doesn't.</p></div>
+    <div><h4>What I measure</h4><p>Hours saved per person, weekly active users, quality checks on AI output, and the business number the team already cares about.</p></div>
+    <div><h4>Proof it works</h4><p class="result">With my own team: found that reps were stuck writing follow ups, built Sales Cheat Code, trained all 9 reps. All 9 use it daily and each saves 30 minutes a day.</p></div>
+  </div>
+</section>
+
 <section class="wrap">
   <p class="eyebrow">Tools</p>
   <h2>What I build with</h2>
   <div class="tools"><span>Claude</span><span>ChatGPT</span><span>OpenAI API</span><span>n8n</span><span>Google Sheets</span><span>Gmail</span><span>Multi agent systems</span><span>Printify</span><span>Amazon Seller</span><span>Prompt design</span><span>HTML to PDF automation</span><span>Excel</span><span>Salesforce</span><span>Bonzo</span><span>Dialpad</span></div>
+  <h3 class="more-h">Skills, with proof</h3>
+  <div class="skills">
+    <div><b>Workflow automation (n8n)</b><span>Scheduled workflows, webhooks, forms, AI agents, Google Sheets and Gmail.</span><a href="https://github.com/Braydon2622/braydon2622.github.io/tree/main/workflows" target="_blank" rel="noopener">See the workflow files</a></div>
+    <div><b>Prompt and AI design</b><span>Structured outputs, compliance rules, JSON for automations.</span><a href="https://github.com/Braydon2622/braydon2622.github.io/blob/main/prompts.md" target="_blank" rel="noopener">Read the prompts</a></div>
+    <div><b>AI adoption and training</b><span>9 of 9 reps using my tool daily; a repeatable rollout plan.</span><a href="#playbook">My 90 day plan</a></div>
+    <div><b>Multi agent systems</b><span>AI teams that draft, review and revise, with human approval.</span><a href="#projects">Stitch Bench and Azoki Market</a></div>
+    <div><b>Coaching and team leadership</b><span>Team of 9, 434 loans, 2 reps promoted, UWM Top 1% in 2024 and 2025.</span><a href="https://www.linkedin.com/in/braydon-hart-392336209/" target="_blank" rel="noopener">LinkedIn</a></div>
+    <div><b>Product development</b><span>Design, packaging, factory samples and production.</span><a href="#vinyl">The vinyl figure</a></div>
+  </div>
   <p class="eyebrow" style="margin-top:26px">Certifications</p>
   <div class="tools"><span>AI Fluency: Framework &amp; Foundations · Anthropic</span><span>Claude 101 · Anthropic</span><span>Licensed Mortgage Loan Originator · NMLS #1925352</span></div>
 </section>
