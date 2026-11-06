@@ -364,6 +364,32 @@ footer{padding-block:28px 48px;font-size:13px;color:var(--faint)}
       </div>
     </article>
   </div>
+
+  <article class="feature glass" id="gremlets" style="margin-top:16px">
+    <div class="feature-top">
+      <div style="display:grid;gap:14px">
+        <div class="card-head"><h3>Gremlets</h3><span class="status">v1.0 released · open source</span></div>
+        <p>An AI desktop companion for the Mac: 50 original pixel creatures that live on your screen, talk with you, garden beside your windows while you work, keep Claude Code company and hop over to your phone. I art-directed all 50 creatures and built the app, the engine, the web version and the AI features with Claude.</p>
+        <p class="result"><span>Result</span>A shipped Mac app (v1.0) plus a browser version anyone can try. 89 automated tests, 1 to 3% CPU with eight creatures, and no permissions needed by default.</p>
+        <div class="links"><a href="https://braydonhartai.com/gremlets/" target="_blank" rel="noopener">Try it in your browser</a><a href="https://github.com/Braydon2622/gremlets/releases/latest" target="_blank" rel="noopener">Download for Mac</a><a href="https://github.com/Braydon2622/gremlets" target="_blank" rel="noopener">The code</a></div>
+      </div>
+      <figure class="shot"><img src="https://braydonhartai.com/gremlets/Species/lineup.png" alt="All 50 Gremlets in a lineup: small original pixel animals, spirits, guardian machines, bugs and a dragon" width="900" loading="lazy" style="image-rendering:pixelated"><figcaption>All 50 Gremlets. Every creature, name and animation is original.</figcaption></figure>
+    </div>
+    <div class="stages">
+      <div><span class="status">1 · Desktop pets</span><b>Creatures with real physics</b><span>They walk on your app windows, ride along when you drag one, nap, play tag and stand on each other's heads. 20 animations each, a platform-independent engine and a 10 minute soak test.</span></div>
+      <div><span class="status">2 · Companion</span><b>Focus, gardening and a Claude buddy</b><span>A focus timer, window-box gardens on platforms they build (a hot-air balloon, a treehouse, a giant snail), 19 plants to collect, and a Gremlet that works beside Claude Code and says when it's done.</span></div>
+      <div><span class="status">3 · AI companion</span><b>Chat and a phone link</b><span>Double-click one to chat: it knows your day and can start a focus session for you. Send one through a portal to your phone and back with what it grew.</span></div>
+    </div>
+    <details>
+      <summary>The full story</summary>
+      <div class="pbr">
+        <div><h4>Why I built it</h4><p>I spend my day next to AI tools, and I wanted one that feels like company instead of another tab: something that nudges you to focus, notices when you step away and celebrates when the work is done.</p></div>
+        <div><h4>How I built it</h4><p>A native Swift app on a pure engine I could test without a screen, a JavaScript port for the web, Claude for the chat (with a Keychain stored key and built-in replies as a fallback), and Claude Code hooks for the buddy.</p></div>
+        <div><h4>Safeguards</h4><p>They hide whenever your camera or mic is in use, so they never show up on a call. The local control channel only listens on your Mac. The phone link sends only creature names and plant kinds.</p></div>
+        <div><h4>What's next</h4><p>A native iPhone app with Home Screen widgets and a Gremlet in the Dynamic Island, and a demo video.</p></div>
+      </div>
+    </details>
+  </article>
 </section>
 
 <section class="wrap" id="building">
