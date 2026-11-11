@@ -1,13 +1,14 @@
 # Braydon Hart: AI Portfolio
 
-I'm a sales director in Metro Detroit who builds AI tools and trains people to actually use them. This repo hosts my portfolio site (`index.html`) and the real n8n workflows behind my biggest project.
+I'm a sales director in Metro Detroit who builds AI tools and trains people to actually use them. This repo is the source of my portfolio site, braydonhartai.com: the page itself (`index.html`), the Gremlets playground, and the real n8n workflows and prompts behind my sales tools. Large downloads and videos live only on the live site.
 
 **Portfolio:** open `index.html`, or visit the live site at https://braydonhartai.com.
 **LinkedIn:** https://www.linkedin.com/in/braydon-hart-392336209/
+**Code:** [Sales Call Cheat Code](https://github.com/Braydon2622/sales-cheat-code-live) · [Gremlets](https://github.com/Braydon2622/gremlets)
 
 ---
 
-## Case study: Sales Cheat Code, an AI sales assistant
+## Case study: Sales Text Cheat Code and Sales Call Cheat Code, AI sales assistants
 
 ### The problem
 My loan officers lost a lot of time deciding what to say. A client would text back "I'm just shopping around," and the rep would spend 10 minutes writing a reply or skip the follow up completely. Leads went cold from hesitation, not lack of effort.
@@ -32,7 +33,7 @@ Then I rebuilt it as an automated system in n8n, connecting Claude, OpenAI, Goog
 ### Built in safeguards
 - Texts avoid words texting platforms flag and never quote rates, payments or approvals.
 - A privacy rule keeps sensitive details (SSNs, account numbers, birthdates) out of anything the AI writes.
-- The AI drafts and a licensed person reviews and sends. Nothing goes to a client automatically.
+- The loan officer stays in control: automatic replies can wait for their one tap approval before anything is sent.
 - Only fake test data was used while building.
 
 ### Tools

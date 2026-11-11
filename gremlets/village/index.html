@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Gremlets village</title>
+<meta name="description" content="A village grown by Claude Code sessions: 8 tasks, 30 file edits, 1 project trees.">
+<meta property="og:title" content="My Gremlets village">
+<meta property="og:description" content="A village grown by Claude Code sessions: 8 tasks, 30 file edits, 1 project trees.">
+<meta property="og:image" content="village.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root { --bg: #f6f1e7; --card: #fffaf0; --ink: #1f2438; --soft: #5d6378; --line: #e4dccb; --accent: #4e8b3a; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #14161f; --card: #1d2030; --ink: #eef0f7; --soft: #a3a9bd; --line: #2c3045; --accent: #8bd66a; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 56px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.1; margin: 0 0 6px; letter-spacing: -0.02em; }
+  .lede { color: var(--soft); margin: 0 0 22px; font-size: 18px; }
+  .postcard { width: 100%; height: auto; display: block; border-radius: 14px; border: 1px solid var(--line); image-rendering: pixelated; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 22px 0 34px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .tile b { display: block; font-size: 30px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .tile span { display: block; font-weight: 600; }
+  .tile small { color: var(--soft); font-size: 13px; }
+  h2 { font-size: 20px; margin: 0 0 12px; }
+  ul { list-style: none; padding: 0; margin: 0 0 34px; display: flex; flex-wrap: wrap; gap: 12px; }
+  li { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px 12px; text-align: center; min-width: 120px; }
+  li img { display: block; margin: 0 auto 4px; image-rendering: pixelated; }
+  li span { display: block; color: var(--soft); font-size: 13px; text-transform: capitalize; }
+  footer { color: var(--soft); font-size: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>My Gremlets village</h1>
+  <p class="lede">Gremlets are little spirits that live on my Mac's desktop. Every time Claude Code works on one of my projects, they build: a little hut hangs beside the terminal Claude works in, its tree grows with every session, and they garden the moss while it works. This is what they've made so far.</p>
+  <img class="postcard" src="village.png" alt="A pixel-art scene: a little house and hammock hanging from the top, a plant in the corner, project bonsai trees on brackets and the Gremlets out front" width="1600" height="660">
+  <div class="tiles">
+    <div class="tile"><b>8</b><span>Claude tasks</span><small>each one grew the grove</small></div>
+    <div class="tile"><b>9</b><span>sessions</span><small>every session adds a branch</small></div>
+    <div class="tile"><b>30</b><span>file edits</span><small>a block placed for each</small></div>
+    <div class="tile"><b>1</b><span>project tree</span><small>one bonsai per project</small></div>
+    <div class="tile"><b>1</b><span>gem</span><small>dug up or found on treasure runs</small></div>
+    <div class="tile"><b>162</b><span>minutes of moss</span><small>the desktop grows over while Claude works</small></div>
+  </div>
+  <h2>Who lives here</h2>
+  <ul>
+      <li><img src="img/boilerbit.png" alt="" width="96" height="96"><b>Boilerbit</b><span>steam</span></li>
+      <li><img src="img/inklet.png" alt="" width="96" height="96"><b>Inklet</b><span>deep</span></li>
+      <li><img src="img/mosswarden.png" alt="" width="96" height="96"><b>Mosswarden</b><span>patina</span></li>
+  </ul>
+  <footer>Updated November 7, 2026. A snapshot, not a live feed: no project names or anything from the sessions themselves are on this page. <a href="https://braydonhartai.com/gremlets/">Meet the Gremlets</a>.</footer>
+</main>
+</body>
+</html>

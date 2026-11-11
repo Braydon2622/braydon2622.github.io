@@ -1,0 +1,13 @@
+{
+  "description" : "A tiny mint-green wyrm that smells faintly of jasmine tea.",
+  "element" : "jasmine",
+  "family" : "dragon",
+  "flies" : false,
+  "floats" : false,
+  "jumpPower" : 0.90000000000000002,
+  "name" : "Mintwyrm",
+  "scale" : 3,
+  "sleepiness" : 1,
+  "special" : "steam",
+  "walkSpeed" : 35
+}

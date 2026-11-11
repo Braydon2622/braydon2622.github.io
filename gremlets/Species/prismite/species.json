@@ -1,0 +1,13 @@
+{
+  "description" : "A jewel beetle whose shell throws tiny rainbows on the wall whenever the sun hits it.",
+  "element" : "prism",
+  "family" : "insect",
+  "flies" : false,
+  "floats" : false,
+  "jumpPower" : 1,
+  "name" : "Prismite",
+  "scale" : 3,
+  "sleepiness" : 1,
+  "special" : "sparkle",
+  "walkSpeed" : 45
+}

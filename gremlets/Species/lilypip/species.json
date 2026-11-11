@@ -1,0 +1,13 @@
+{
+  "description" : "A round pond frog that hops much higher than anyone expects.",
+  "element" : "pond",
+  "family" : "animal",
+  "flies" : false,
+  "floats" : false,
+  "jumpPower" : 1.3999999999999999,
+  "name" : "Lilypip",
+  "scale" : 3,
+  "sleepiness" : 1,
+  "special" : "bubbles",
+  "walkSpeed" : 65
+}

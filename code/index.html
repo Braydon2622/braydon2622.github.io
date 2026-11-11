@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Braydon Hart · Code</title>
+<style>
+:root{--ink:#2b2433;--muted:#6b6475;--line:rgba(43,36,51,.14);--bg:#fbf8f3;--card:#fff;--accent:#ff7a4d}
+@media (prefers-color-scheme:dark){:root{--ink:#f2eef7;--muted:#b3abbd;--line:rgba(255,255,255,.14);--bg:#17141c;--card:#211d28}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:0 auto;padding:40px 16px 80px}
+a{color:var(--accent)} h1{margin:0 0 4px} .sub{color:var(--muted);margin:0 0 28px}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:0 0 20px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0}.btns a{background:var(--accent);color:#fff;text-decoration:none;padding:9px 14px;border-radius:10px;font-weight:600}
+.btns a.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.md{border-top:1px solid var(--line);margin-top:16px;padding-top:8px;overflow-x:auto}.md pre{overflow-x:auto;background:rgba(127,127,127,.12);padding:10px;border-radius:8px}.md img{max-width:100%}
+</style></head><body><main>
+<p><a href="../">← Back to the portfolio</a></p>
+<h1>Code</h1><p class="sub">Full source for my projects. Each download is the complete repository.</p>
+<section id="gremlets"><h2>Gremlets</h2><p>Pixel desktop companions for macOS (Swift) that grow a moss garden from your Claude Code sessions, plus the web and iPad version.</p>
+<div class="btns"><a href="gremlets-source.zip">Download source</a><a class="ghost" href="https://github.com/Braydon2622/gremlets" target="_blank" rel="noopener">On GitHub</a><a class="ghost" href="../gremlets/web/">Try it in your browser</a><a class="ghost" href="../gremlets/Gremlets-mac.zip">Mac app</a></div>
+<div class="md" data-src="gremlets-README.md"></div></section>
+<section id="sales"><h2>Sales Call Cheat Code</h2><p>AI call coach for mortgage loan officers (TypeScript), with test results and sample reports.</p>
+<div class="btns"><a href="sales-cheat-code-live-source.zip">Download source</a><a class="ghost" href="https://github.com/Braydon2622/sales-cheat-code-live" target="_blank" rel="noopener">On GitHub</a><a class="ghost" href="../workflows/">n8n workflows</a><a class="ghost" href="../prompts.md">Prompts</a></div>
+<div class="md" data-src="sales-cheat-code-live-README.md"></div></section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<script>
+document.querySelectorAll('.md').forEach(async (el) => {
+  try { const t = await fetch(el.dataset.src).then(r => r.text()); el.innerHTML = window.marked ? marked.parse(t) : '<pre>' + t.replace(/</g, '&lt;') + '</pre>'; }
+  catch { el.innerHTML = '<a href="' + el.dataset.src + '">Read the README</a>'; }
+});
+</script></body></html>

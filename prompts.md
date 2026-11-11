@@ -1,6 +1,6 @@
 # Prompt Swipe File
 
-The prompts behind my Sales Cheat Code workflows, plus the patterns that made them work. I add to this file as I find prompts worth keeping.
+The prompts behind my Sales Text Cheat Code workflows (originally named Sales Cheat Code), plus the patterns that made them work. I add to this file as I find prompts worth keeping.
 
 ## What makes these work
 

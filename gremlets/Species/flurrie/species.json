@@ -1,0 +1,13 @@
+{
+  "description" : "A snowball bunny with icicle ear-tips. Leaves a little frost wherever it hops.",
+  "element" : "frost",
+  "family" : "animal",
+  "flies" : false,
+  "floats" : false,
+  "jumpPower" : 1.25,
+  "name" : "Flurrie",
+  "scale" : 3,
+  "sleepiness" : 1,
+  "special" : "snow",
+  "walkSpeed" : 75
+}

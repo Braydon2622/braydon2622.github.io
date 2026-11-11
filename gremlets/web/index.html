@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Gremlets Habitat</title>
+  <meta name="description" content="Fifty original pixel creatures that walk, fly, nap, play tag and stack on each other's heads.">
+  <meta name="theme-color" content="#bfe0f2">
+  <link rel="stylesheet" href="css/habitat.css">
+  <!-- Add to Home Screen (the Terrarium): full screen, no Safari bars. -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Gremlets">
+</head>
+<body>
+  <canvas id="world" aria-label="Gremlets habitat"></canvas>
+
+  <header id="bar">
+    <span class="logo">Gremlets</span>
+    <span id="count" class="count"></span>
+    <span class="spacer"></span>
+    <span id="linkchip" class="chip-link" hidden>📱 Linked</span>
+    <span id="roomchip" class="chip-link" hidden>🔗 Linked</span>
+    <button id="home" class="btn" hidden title="Send visiting Gremlets back to your Mac">Send home</button>
+    <button id="rain" class="btn ghost icon" title="A rain cloud drifts by" aria-label="Make it rain">🌧</button>
+    <button id="boss" class="btn ghost icon" title="Summon the Grumble King (then drive a Gremlet and press X to fight)" aria-label="Summon a boss">👑</button>
+    <button id="watch" class="btn ghost" title="Watch a simulated Claude session grow the project bonsai" aria-label="Watch a Claude session"><span class="narrow">▶</span><span class="wide">▶ Watch a Claude session</span></button>
+    <button id="link" class="btn ghost" title="Link another screen so Gremlets can walk between them">🔗 <span class="wide">Link a screen</span></button>
+    <button id="party" class="btn ghost" title="Swap in a random group" aria-label="Shuffle"><span class="narrow">🔀</span><span class="wide">Shuffle</span></button>
+    <button id="add" class="btn">+<span class="wide"> Add</span></button>
+  </header>
+  <div id="session" hidden aria-live="polite"><span></span></div>
+
+  <div id="picker" hidden>
+    <div class="sheet" role="dialog" aria-label="Choose a Gremlet">
+      <div class="sheet-head">
+        <h2>Choose a Gremlet</h2>
+        <button id="close" class="btn ghost" aria-label="Close">✕</button>
+      </div>
+      <div id="picker-grid"></div>
+    </div>
+  </div>
+
+  <div id="linker" hidden>
+    <div class="sheet" role="dialog" aria-label="Link another screen">
+      <div class="sheet-head">
+        <h2>Link another screen</h2>
+        <button id="lk-close" class="btn ghost" aria-label="Close">✕</button>
+      </div>
+      <div id="lk-choose">
+        <p class="lk-p">Put your iPad, phone or a friend's laptop next to this one. Gremlets will walk off this screen and in from the edge of the other.</p>
+        <p class="lk-p"><b>Which side is the other screen on?</b></p>
+        <div class="lk-sides">
+          <button class="btn" data-side="left">◀ Left</button>
+          <button class="btn" data-side="right">Right ▶</button>
+        </div>
+      </div>
+      <div id="lk-share" hidden>
+        <p class="lk-p" id="lk-status"></p>
+        <div class="lk-grid">
+          <div id="lk-qr" aria-label="QR code for the link"></div>
+          <div class="lk-col">
+            <p class="lk-p">Scan the code with the other screen's camera, or send it the link.</p>
+            <input id="lk-url" readonly aria-label="Link for the other screen">
+            <div class="lk-row"><button id="lk-copy" class="btn">Copy link</button><button id="lk-rain" class="btn ghost">🌧 Send a rain cloud</button></div>
+            <p class="lk-small">Tip: double-click a Gremlet (or press Tab) to drive it with the arrow keys, then walk it right across. <button id="lk-unlink" class="linklike">Unlink</button></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="drivehint" hidden></div>
+  <div id="pad" hidden>
+    <button data-k="left" aria-label="Walk left">◀</button>
+    <button data-k="jump" aria-label="Jump">⤒</button>
+    <button data-k="right" aria-label="Walk right">▶</button>
+    <button data-k="mine" aria-label="Swing pickaxe">⛏</button>
+  </div>
+
+  <div id="hint">Tap to poke · Hold to pet · Drag to throw · Double-click to drive · 👑 for a boss fight</div>
+  <div id="plate" hidden></div>
+  <div id="bubbles" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <script type="module" src="js/habitat.js"></script>
+</body>
+</html>
