@@ -42,3 +42,25 @@ body.night .tcard { background: rgba(40, 44, 70, 0.7); color: #e8e4f4; box-shado
 .tcard .ticon { font-size: 13px; width: 18px; text-align: center; }
 .tcard.office.urgent { box-shadow: 0 0 0 2px rgba(224, 69, 58, 0.7); }
 .tcard.office.good { box-shadow: 0 0 0 1px rgba(95, 175, 74, 0.8); }
+
+/* The Back Office view (🏢). */
+#tofficebtn { position: fixed; right: max(14px, env(safe-area-inset-right)); top: max(12px, env(safe-area-inset-top)); z-index: 70; width: 44px; height: 44px; border-radius: 14px; border: 0; font-size: 22px; background: rgba(255, 255, 255, 0.6); box-shadow: 0 0 0 1px rgba(150, 175, 160, 0.35), 0 4px 14px rgba(60, 90, 80, 0.12); backdrop-filter: blur(6px); }
+#toffice { position: fixed; inset: 0; z-index: 65; background: #eef3f7; }
+#toffice[hidden] { display: none; }
+#toffice canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+#toffice aside { position: absolute; left: max(14px, env(safe-area-inset-left)); top: max(14px, env(safe-area-inset-top)); width: min(320px, 40vw); max-height: 86vh; overflow: auto; padding: 14px 16px; border-radius: 16px; background: rgba(255, 253, 248, 0.86); color: #33443a; box-shadow: 0 0 0 1px rgba(201, 161, 90, 0.5), 0 8px 26px rgba(60, 50, 30, 0.12); backdrop-filter: blur(6px); }
+#toffice h2 { margin: 0 0 8px; font-size: 18px; }
+#toffice h3 { margin: 12px 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.55; }
+#toffice .nums div { display: grid; grid-template-columns: 26px 1fr; column-gap: 4px; margin: 4px 0; }
+#toffice .nums span { grid-row: span 2; font-size: 18px; }
+#toffice .nums b { font-size: 13px; }
+#toffice .nums small { font-size: 12px; opacity: 0.75; }
+#toffice ul { list-style: none; margin: 0; padding: 0; font-size: 12px; font-weight: 500; }
+#toffice li { padding: 3px 0; border-bottom: 1px solid rgba(201, 161, 90, 0.2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#toffice li.good { color: #2c6a28; } #toffice li.urgent { color: #a3322a; } #toffice li.warn { color: #8a5a10; }
+#toffice .rot { margin-top: 12px; border: 0; border-radius: 10px; padding: 7px 10px; font: inherit; font-size: 12px; font-weight: 600; background: rgba(90, 165, 78, 0.15); color: #2c5a32; }
+#toffice .wait { position: absolute; left: 0; right: 0; bottom: 12%; text-align: center; color: #5a6a62; font-weight: 600; }
+#toffice.live .wait { display: none; }
+@media (max-width: 700px) { #toffice aside { width: auto; right: 14px; max-height: 40vh; } }
+#toffice .wait .demo { margin-left: 8px; border: 0; border-radius: 10px; padding: 7px 12px; font: inherit; font-weight: 700; background: #5aa54e; color: #fff; }
+#toffice.demo-on aside h2::after { content: ' · demo'; font-weight: 500; opacity: 0.55; }

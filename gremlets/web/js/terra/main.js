@@ -16,6 +16,7 @@ import { Bridge } from '../bridge.js';
 import { phaseAt, shiftAt } from '../terrarium.js';
 import { TerraModel, PLAN } from './model.js';
 import * as A from './art.js';
+import { OfficeView } from './office.js';
 
 const params = new URLSearchParams(location.search);
 const SAVE = 'gremlets.terra.v1', INTRO = 'gremlets.terrarium.intro', RELOADED = 'gremlets.terrarium.reloaded';
@@ -357,10 +358,12 @@ bridge.onClaude = (n) => {
 
 // The Back Office on the Mac: its latest events join the strip, and good news (a sale, a green run) sparkles.
 let office = [];
-const OFFICE_ICON = { amazon: '🚂', railroad: '🚂', crypto: '🐟', aquarium: '🐟', discord: '🕊', postoffice: '🕊', n8n: '📦', factory: '📦', claude: '🛠', farm: '🏁', lucid: '🏁', board: '📌' };
+const OFFICE_ICON = { workshop: '🛠', railroad: '🚂', aquarium: '🐟', postOffice: '🕊', factory: '📦', board: '📌', farm: '🏁' };
+const officeView = new OfficeView();
 bridge.onOffice = (n) => {
+  officeView.update(n, true);
   const seen = new Set(office.map((e) => e.at + e.title));
-  office = n.events.filter((e) => e && typeof e.title === 'string').slice(-5).map((e) => ({ source: String(e.source).slice(0, 16), title: String(e.title).slice(0, 40), severity: e.severity, at: +e.at || 0 }));
+  office = n.events.filter((e) => e && typeof e.title === 'string').slice(-5).map((e) => ({ room: String(e.room ?? '').slice(0, 16), title: String(e.title).slice(0, 40), severity: e.severity, at: +e.at || 0 }));
   for (const e of office) if (!seen.has(e.at + e.title) && e.severity === 'good') {
     const x = mossyX() ?? W / 2;
     particles.burst(FX.sparkle, V(x, FLOOR + 30), { count: 5, dx: [-30, 30], dy: [10, 60], duration: 1.1, stagger: 0.06 });
@@ -566,7 +569,7 @@ function renderStrip() {
   strip.replaceChildren(...items.map((e) => {
     const el = document.createElement('div'); el.className = 'tcard ' + (e.claude ? e.state : 'office ' + (e.severity || ''));
     if (e.claude) el.append(Object.assign(document.createElement('img'), { src: icons[e.state], alt: '' }));
-    else el.append(Object.assign(document.createElement('b'), { textContent: OFFICE_ICON[e.source] ?? '🏢', className: 'ticon' }));
+    else el.append(Object.assign(document.createElement('b'), { textContent: OFFICE_ICON[e.room] ?? '🏢', className: 'ticon' }));
     const t = document.createElement('span'); t.textContent = e.claude ? `${e.project} · ${words[e.state]}` : e.title;
     el.append(t, Object.assign(document.createElement('small'), { textContent: ago(e.at) }));
     return el;
@@ -642,8 +645,7 @@ function frame(nowMs) {
   if (t - lastPhaseCheck > 20) { lastPhaseCheck = t; setPhase(); renderStrip(); renderLeaf(); }
   if (t - lastSave > 30) { lastSave = t; save(); }
   if (toast && t > toast) { document.getElementById('ttoast').classList.remove('on'); toast = null; }
-  draw(t);
-  placeBubbles(t);
+  if (!officeView.frame(night)) { draw(t); placeBubbles(t); }
   requestAnimationFrame(frame);
 }
 
@@ -796,7 +798,7 @@ async function start() {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) { wake(); last = performance.now(); } });
   if (!store.get(INTRO) && PREVIEW == null) document.getElementById('tintro').hidden = false;
   document.getElementById('tintro-ok').addEventListener('click', () => { try { localStorage.setItem(INTRO, '1'); } catch { /* */ } document.getElementById('tintro').hidden = true; });
-  if (params.has('debug')) window.terra = { world, model, bridge, get sessions() { return sessions; }, helpers, inside, get critters() { return critters; }, get plants() { return plants; }, get flags() { return flags; }, ladders, setPhase, celebrateTask };
+  if (params.has('debug')) window.terra = { officeView, world, model, bridge, get sessions() { return sessions; }, helpers, inside, get critters() { return critters; }, get plants() { return plants; }, get flags() { return flags; }, ladders, setPhase, celebrateTask };
   requestAnimationFrame((ms) => { last = ms; frame(ms); });
 }
 
