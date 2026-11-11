@@ -6,7 +6,7 @@
 <title>Braydon Hart | AI Implementation &amp; Enablement</title>
 <meta property="og:title" content="Braydon Hart | AI Implementation & Enablement">
 <meta property="og:description" content="I build AI tools a whole team actually uses. Try the AI sales coach all 9 reps on my team use every day, and play with the Gremlets.">
-<meta property="og:image" content="https://braydonhartai.com/og.png">
+<meta property="og:image" content="https://braydonhartai.com/og.png?v=2">
 <meta property="og:url" content="https://braydonhartai.com/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -397,6 +397,11 @@ details[open] summary::before{content:"\2212"}
 @media (max-width:700px){.more .wide{grid-template-columns:1fr}}
 .more p{font-size:16px;color:var(--soft)}
 .more .r{font-size:15.5px;color:var(--ink);font-weight:700}
+.sew{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;margin-top:6px}
+.sew figure{margin:0;display:grid;gap:6px}
+.sew img{border-radius:14px;border:1px solid rgba(255,255,255,.9);width:100%;aspect-ratio:1;object-fit:cover;box-shadow:0 14px 30px -24px rgba(31,64,52,.45)}
+.sew figcaption{font-size:13.5px;color:var(--faint);text-align:center}
+.sew i{font-style:normal;color:var(--faint);font-size:22px}
 .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13.5px;font-weight:700}
 .flow span{padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.6)}
 .flow span.ai{background:var(--tint);border-color:transparent;color:var(--moss-lo)}
@@ -493,6 +498,32 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
 .lb-prev{left:8px}.lb-next{right:8px}
 @media (max-width:600px){dialog.lb{padding:52px 10px 14px}.lb-nav{top:10px;transform:none}.lb-prev{left:10px}.lb-next{left:58px;right:auto}}
 .fullvid{margin-top:12px}.fullvid summary{cursor:pointer;font-weight:700;font-size:15px}.fullvid video{margin-top:10px}
+
+/* training */
+.tr-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(22px,3.4vw,48px);align-items:center}
+@media (max-width:900px){.tr-grid{grid-template-columns:minmax(0,1fr)}.tv{max-width:560px;width:100%;justify-self:center}}
+.tv{margin:0;display:grid;justify-items:center;gap:0}
+.tv-screen{width:100%;aspect-ratio:16/9.4;border-radius:18px;padding:clamp(14px,2vw,22px);background:linear-gradient(160deg,#fdfefd,#eef5f1);border:10px solid #2b3430;box-shadow:0 40px 70px -40px rgba(31,64,52,.55);display:grid;grid-template-rows:auto 1fr;gap:12px;font-size:clamp(13px,1.35vw,16px)}
+.tv-top{display:flex;justify-content:space-between;gap:10px;font-weight:700;color:var(--soft);font-size:.85em}
+.tv-live{color:#c2410c}
+.tv-body{display:grid;align-content:center;gap:10px}
+.tv-in{justify-self:start;max-width:85%;padding:9px 13px;border-radius:16px 16px 16px 5px;background:#fff;border:1px solid var(--line)}
+.tv-arrow{justify-self:center;font-size:.85em;font-weight:700;color:var(--moss)}
+.tv-out{justify-self:end;max-width:90%;padding:9px 13px;border-radius:16px 16px 5px 16px;background:#f3faf4;border:1.5px solid var(--moss-hi)}
+.tv-stand{width:22%;height:16px;background:linear-gradient(#3a4540,#2b3430);border-radius:0 0 10px 10px}
+.tv figcaption{margin-top:12px;font-size:14px;color:var(--faint);text-align:center}
+.tr-copy{display:grid;gap:22px}
+.tr-steps{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:s}
+.tr-steps li{display:grid;grid-template-columns:38px 1fr;gap:2px 14px;counter-increment:s}
+.tr-steps li::before{content:counter(s);grid-row:span 2;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--tint);color:var(--moss-lo);font-weight:800}
+.tr-steps b{font-size:17.5px}.tr-steps span{color:var(--soft);font-size:16px}
+.tr-h{display:block;font:700 13px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.tr-topics div{display:flex;flex-wrap:wrap;gap:8px}
+.tr-topics div span{padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid var(--line);font-size:14.5px;font-weight:600}
+.tr-res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.tr-res{grid-template-columns:1fr}}
+.tr-res div{padding:14px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-edge);box-shadow:var(--shadow);display:grid;gap:4px}
+.tr-res b{font-family:var(--display);font-size:24px;line-height:1.05}.tr-res span{font-size:14px;color:var(--soft);line-height:1.4}
 </style>
 </head>
 <body>
@@ -595,12 +626,12 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
       </div>
 
       <div class="nums">
-        <div><b>1.6 s</b><span>from the client's last word to a coaching card</span></div>
+        <div><b>1.6 s</b><span>from the client's last word to a coaching card, down from 3.8 s</span></div>
         <div><b>92%</b><span>of key moments caught on 25 calls it never trained on</span></div>
         <div><b>18 of 18</b><span>rep compliance slips caught in testing</span></div>
-        <div><b>2 to 3¢</b><span>per call</span></div>
+        <div><b>0</b><span>non compliant suggestions reached the rep in about 400 test cards</span></div>
       </div>
-      <p class="status"><i aria-hidden="true"></i>Built and tested on 45 role play calls, 140 automated tests. A pilot on my team's calls is waiting on company approval.</p>
+      <p class="status"><i aria-hidden="true"></i>Built and tested on 45 role play calls, 140 automated tests, about 2¢ per call. A pilot on my team's calls is waiting on company approval.</p>
       <div class="links">
         <a class="go" href="#demo-video">▶ Watch the 60 second demo</a>
         <a href="code/#sales">Code and test results</a>
@@ -631,7 +662,7 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
       <div class="approve" aria-label="Example of a reply waiting for the loan officer's approval">
         <div class="ap-top"><span class="ap-dot" aria-hidden="true"></span><b>New text from Taylor</b><span>just now</span></div>
         <p class="ap-in">"Can we talk tonight instead? Work ran late."</p>
-        <p class="ap-out"><small>Reply ready</small>"Of course! Does 6:30 or 7:30 tonight work better?"</p>
+        <p class="ap-out"><small>Reply ready</small>"No worries at all! I'm around until 8 tonight. Should I call you at 7, or text the numbers over first?"</p>
         <div class="ap-btns"><span class="ok">Approve and send</span><span>Edit</span><span class="note">or set it to send on its own</span></div>
       </div>
       <div class="autoflow" aria-label="How the morning automation works">
@@ -639,8 +670,8 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
       </div>
       <div class="queue" aria-label="Example of the morning follow up queue">
         <div class="q-top"><b>Today's follow ups</b><span>Drafted automatically at 8:00 AM · 6 ready</span></div>
-        <div class="q-item"><span class="tag hot">Hot</span><div><b>Jordan · attempt 1</b><p>"Morning! Want to knock out the quick application today? Does noon or 4 work better?"</p></div><span class="copy-pill">Send</span></div>
-        <div class="q-item"><span class="tag warm">Warm</span><div><b>Morgan · attempt 3</b><p>"Still thinking about consolidating those cards? I can run a quick side by side. Today at 4 or tomorrow at 10?"</p></div><span class="copy-pill">Send</span></div>
+        <div class="q-item"><span class="tag hot">Hot</span><div><b>Jordan · attempt 1</b><p>"Morning! Want to knock out the application together at lunch, or should I send the link so you can start now?"</p></div><span class="copy-pill">Send</span></div>
+        <div class="q-item"><span class="tag warm">Warm</span><div><b>Morgan · attempt 3</b><p>"Still thinking about rolling those cards into one payment? I can show you the numbers in 10 minutes. Is a call tonight or Saturday easier?"</p></div><span class="copy-pill">Send</span></div>
         <div class="q-item"><span class="tag cold">Cold</span><div><b>Casey · attempt 5</b><p>"Hey, I don't want to keep bugging you. Should I close out your file, or are you still looking at your home options?"</p></div><span class="copy-pill">Send</span></div>
       </div>
 
@@ -655,7 +686,7 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
       <div class="nums">
         <div><b>9 of 9</b><span>reps on my team use it every day</span></div>
         <div><b>30 min</b><span>saved per rep, every day</span></div>
-        <div><b>4.5 hrs</b><span>given back to the team daily</span></div>
+        <div><b>180</b><span>real client texts answered by the AI in one week</span></div>
         <div><b>Auto</b><span>replies, or one tap for the loan officer to approve</span></div>
       </div>
       <p class="status live"><i aria-hidden="true"></i>In daily use by all 9 reps on my team.</p>
@@ -770,10 +801,15 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
         <span class="state">Working</span>
         <h3>Stitch Bench</h3>
         <p>A multi agent AI design team that turns a photo or idea into embroidery machine files. A designer drafts, two AI reviewers critique, the designer revises, and automated checks validate the stitches.</p>
-        <p class="r">Photo in. Validated VP3 and DST machine files out, with a thread list, sew out guide and cost per piece.</p>
+        <p class="r">Photo in. Validated VP3 and DST machine files out, with a thread list, sew out guide and cost per piece. Shown here: a design it turned into a file, then sewn for real.</p>
         <div class="flow" aria-label="How the AI design team works"><span>Photo or idea</span><i>›</i><span class="ai">Designer drafts</span><i>›</i><span class="ai">2 reviewers critique</span><i>›</i><span class="ai">Designer revises</span><i>›</i><span>Machine checks</span></div>
       </div>
-      <figure class="shot"><img src="img/stitch-bench.jpg" alt="Stitch Bench workbench showing machine and garment settings, the photo upload panel, and an embroidered sea serpent design in a hoop" width="900" height="560" loading="lazy"><figcaption>Stitch Bench with its built in example design.</figcaption></figure>
+      <figure class="shot"><img src="img/stitch-bench.jpg" alt="Stitch Bench workbench showing machine and garment settings, the photo upload panel, and an embroidered sea serpent design in a hoop" width="900" height="560" loading="lazy"><figcaption>Stitch Bench with its built in example design.</figcaption>
+        <div class="sew" aria-label="Design in, real stitch out">
+          <figure><img src="img/stitch-art.jpg" alt="The flat line art design fed into Stitch Bench" width="800" height="800" loading="lazy"><figcaption>The art in</figcaption></figure>
+          <i aria-hidden="true">›</i>
+          <figure><img src="img/stitch-real.jpg" alt="The same design sewn on black fabric by an embroidery machine from the file Stitch Bench made" width="800" height="800" loading="lazy"><figcaption>Sewn from its file</figcaption></figure>
+        </div></figure>
     </article>
     <article class="third glass">
       <span class="state">Live on Amazon</span>
@@ -799,6 +835,44 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
     </article>
   </div>
   <p class="next"><b>Building next:</b> a New Hire Ramp Coach with 30, 60 and 90 day plans, AI role play practice and a manager view, built from the milestones I use to onboard my own hires.</p>
+</section>
+
+<section class="wrap" id="training">
+  <div class="head">
+    <span class="eyebrow">Training</span>
+    <h2>I don't just hand people a tool. I teach them to use it.</h2>
+    <p class="lead">I've run multiple hands on trainings for my loan officers. I take the team into a meeting room, put my screen on the TV, and walk through a real example live, so nobody has to guess what to do when they get back to their desk.</p>
+  </div>
+  <div class="tr-grid">
+    <figure class="tv" aria-label="Illustration of a training session on the meeting room TV">
+      <div class="tv-screen">
+        <div class="tv-top"><span class="tv-live">● Live demo</span><span>Training: reply to any text</span></div>
+        <div class="tv-body">
+          <p class="tv-in">"I'm just shopping around right now."</p>
+          <p class="tv-arrow">Paste it into the coach ↓</p>
+          <p class="tv-out">"Smart move! What matters most to you, the lowest payment or the lowest cost overall?"</p>
+        </div>
+      </div>
+      <div class="tv-stand"></div>
+      <figcaption>The setup: my laptop on the meeting room TV, working through an example together.</figcaption>
+    </figure>
+    <div class="tr-copy">
+      <ol class="tr-steps">
+        <li><b>Show it live.</b><span>I run the tool on the big screen with a real example so everyone sees exactly what it does.</span></li>
+        <li><b>Walk the exact steps.</b><span>Where to click, what to paste, and what to do with the answer, one step at a time.</span></li>
+        <li><b>Use their own situations.</b><span>We practice on real scenarios from their week, so it sticks the next time a client texts.</span></li>
+      </ol>
+      <div class="tr-topics">
+        <span class="tr-h">What I've trained on</span>
+        <div><span>Using AI for sales</span><span>Automating everyday tasks</span><span>Sales Text Cheat Code</span><span>Sales Call Cheat Code</span></div>
+      </div>
+      <div class="tr-res">
+        <div><b>9 of 9</b><span>loan officers use the texting coach every day</span></div>
+        <div><b>30 min</b><span>saved per rep, per day</span></div>
+        <div><b>On their own</b><span>reps now run their own calls through the call coach to get better</span></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="wrap" id="approach">
@@ -1004,44 +1078,66 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
 
 <script type="module">
 const S = [
- {k:"Rates too high",c:"Honestly rates are just too high right now. I think we're going to wait.",words:"rate rates high wait expensive payment cost too much",
-  read:"Not a no. They're anchored on the headline rate and haven't connected it to their actual goal yet.",t:"Warm",s:"Contacted",
-  send:"Totally get it, nobody wants to overpay. Most people I talk to care more about the monthly number than the rate itself. Want me to run a quick side by side so you can see what makes sense? Does today at 4 or tomorrow at 10 work better?",
-  backup:"No pressure at all. If it helps, I can send a quick comparison you can look at whenever. Want me to text it over?",
-  next:"Ask what they're really trying to do: lower payment, cash out, or pay off debt.",
+ {k:"Rates too high",c:"Honestly rates are just too high right now. I think we're going to wait.",words:"rate rates high wait expensive cost too much interest",
+  read:"Not a no. They're anchored on the headline rate and haven't connected it to their real goal yet.",t:"Warm",s:"Contacted",move:"finds the real goal",
+  send:"Totally fair, nobody wants to overpay. Quick question so I don't waste your time: is the goal a lower monthly payment, or freeing up cash for something? Is a quick call tonight or Saturday morning easier?",
+  key:"Is a quick call tonight or Saturday morning easier?",
+  backup:"No pressure at all. If it helps, I can text over a simple comparison you can look at whenever.",
+  next:"Find out what they're really trying to do: lower payment, cash out, or pay off debt.",
   fu:"No reply: day 2 with a goal based angle (\"Still thinking about consolidating those cards?\").",
   watch:"Don't promise a rate or payment in the text. Save numbers for the call."},
  {k:"Just shopping around",c:"I'm just shopping around right now, my bank is looking at it too.",words:"shopping around bank compare other lender quote quotes offer beat credit union",
-  read:"Comparing options, which means they're active. The goal is to be the easy, fast option.",t:"Warm",s:"Contacted",
-  send:"Smart move, you should compare. I can put together a side by side in about 10 minutes so you can see everything clearly next to your bank's offer. Does today at 4 or tomorrow at 10 work better?",
-  backup:"Totally fair. Whenever your bank sends their numbers, send them my way and I'll make sure you're seeing the full picture.",
-  next:"Book the comparison call before the bank gets back to them.",
-  fu:"Same day if no reply, then day 2: \"Did your bank send anything over yet?\"",
-  watch:"Never talk down the bank. Position as a second set of eyes."},
+  read:"Comparing options, which means they're active. The goal is to be the easy, clear option.",t:"Warm",s:"Contacted",move:"offers a side by side",
+  send:"Smart move, you should compare. Send me whatever your bank quotes and I'll lay it next to mine, closing costs and all, so you see the real difference. Want it by text, or should I walk you through it on a 10 minute call?",
+  key:"Want it by text, or should I walk you through it on a 10 minute call?",
+  backup:"Totally fair. Whenever your bank sends their numbers, forward them my way and I'll take a look.",
+  next:"Get their bank's quote so the comparison is real.",
+  fu:"Day 2: \"Did your bank send anything over yet?\"",
+  watch:"Never talk down the bank. Position yourself as a second set of eyes."},
  {k:"Talk to my spouse",c:"Sounds good but I need to talk to my wife first before we do anything.",words:"wife husband spouse partner talk first family decide",
-  read:"Interested and moving, but the decision is shared. If she isn't on the call, it stalls.",t:"Hot",s:"Soft pull",
-  send:"Of course, it's a big decision for both of you. Want to hop on a quick 15 minute call together so she can ask anything she wants? Does tonight at 6 or tomorrow at 7 work better?",
+  read:"Interested and moving, but the decision is shared. If she isn't on the call, it stalls.",t:"Hot",s:"Soft pull",move:"gets both of them on one call",
+  send:"Of course, it's a big decision for both of you. I'm happy to answer her questions directly so you're not stuck relaying everything. Would tonight at 7 or tomorrow at lunch work for both of you?",
+  key:"Would tonight at 7 or tomorrow at lunch work for both of you?",
   backup:"Makes total sense. Want me to send a short summary you two can go over together?",
   next:"Get both decision makers on one call.",
   fu:"Tomorrow evening if no reply: \"Did you two get a chance to talk it over?\"",
-  watch:"Don't push for an app before the spouse has bought in."},
+  watch:"Don't push for an application before the spouse has bought in."},
+ {k:"Worried about credit",c:"My credit isn't great. I probably won't even qualify.",words:"credit score bad poor qualify approved denied collections late",
+  read:"Worried about being turned down, not uninterested. Lower the fear first.",t:"Warm",s:"Contacted",move:"reassures without promising",
+  send:"You'd be surprised, I help people in all kinds of credit situations. Even if now isn't the time, I can show you exactly what would move the needle so you're ready. Want me to take a quick look today, or later this week?",
+  key:"Want me to take a quick look today, or later this week?",
+  backup:"No pressure. I can send a few simple tips that usually help scores the fastest.",
+  next:"Get permission for a soft pull so you're working with real numbers.",
+  fu:"Day 3: a short credit tip, then ask again.",
+  watch:"Never promise approval or name a score that guarantees it."},
+ {k:"Asks for a payment",c:"How much would my payment be on 300k?",words:"payment monthly how much cost 300k price afford numbers estimate",
+  read:"Engaged and already doing the math, a good sign. A guessed number by text can sink the deal.",t:"Hot",s:"Contacted",move:"turns a number into a call",
+  send:"Great question! It depends on taxes, insurance and your down payment, and I'd hate to guess and be off. Give me 10 minutes and I'll get you a real number. Do you have a few minutes now, or is after work better?",
+  key:"Do you have a few minutes now, or is after work better?",
+  backup:"Happy to. Send me the price range and down payment you're thinking, and I'll call you with real numbers.",
+  next:"Get on the phone while they're engaged.",
+  fu:"If no reply in a few hours, call.",
+  watch:"Never quote a payment or rate by text."},
  {k:"Ghosted after 4 tries",c:"(No reply to the last 4 follow ups.)",words:"no reply silent ghost ghosted quiet busy later",
-  read:"Gone quiet. Usually timing or overwhelm, not a hard no.",t:"Cold",s:"Contacted",
+  read:"Gone quiet. Usually timing or overwhelm, not a hard no.",t:"Cold",s:"Contacted",move:"a pattern interrupt",
   send:"Hey, I don't want to keep bugging you. Should I close out your file for now, or are you still looking at your home options?",
+  key:"Should I close out your file for now, or are you still looking at your home options?",
   backup:"Totally understand if life got busy. Just reply \"later\" and I'll check back next month.",
-  next:"Send the pattern interrupt, then move to the every 2 weeks cadence.",
+  next:"Send the pattern interrupt, then move to every 2 weeks.",
   fu:"If still silent, check back in 14 days with something new.",
   watch:"If they reply stop, confirm politely and mark Do Not Contact."},
  {k:"Ready to move",c:"Ok I think we're ready. What do you need from me?",words:"ready next step go start apply application need from me let's do it",
-  read:"Buying signal. Speed wins here. Get them into the application today.",t:"Hot",s:"App out",
-  send:"Love it! The next step is a quick application, about 15 minutes, and I'll walk you through it. Does today at 4 or tomorrow at 10 work better?",
-  backup:"Awesome. I can send the link now and stay on the phone with you while you fill it out. Want me to call?",
-  next:"Lock a specific time for the application today.",
+  read:"Buying signal. Speed wins here. Get them into the application today.",t:"Hot",s:"App out",move:"gives a clear plan",
+  send:"Love it! Here's the plan: a quick application, about 15 minutes, then I handle the rest. Want to do it together on a call this afternoon, or should I text you the link so you can start right now?",
+  key:"Want to do it together on a call this afternoon, or should I text you the link so you can start right now?",
+  backup:"Awesome. I'll send the link now and stay on the phone with you while you fill it out.",
+  next:"Get the application started today.",
   fu:"If no reply in 2 hours, call. Hot leads go cold fast.",
   watch:"Don't say \"pre approved\" or promise approval in the text."},
  {k:"Asks to stop",c:"Please stop texting me.",words:"stop texting unsubscribe remove leave me alone not interested",
-  read:"Clear opt out. Respect it right away.",t:"Cold",s:"Contacted",
+  read:"Clear opt out. Respect it right away.",t:"Cold",s:"Contacted",move:"honors the opt out",
   send:"Understood, I'll stop reaching out. Thanks for letting me know, and best of luck!",
+  key:"I'll stop reaching out.",
   backup:"None needed.",
   next:"Mark the lead Do Not Contact in the CRM now.",
   fu:"None. Do not follow up.",
@@ -1054,7 +1150,7 @@ const wait = (ms) => new Promise((r) => setTimeout(r, reduce ? 0 : ms));
 // ---------------------------------------------------------------- the preview on the phone: an example that plays itself
 {
   const th = document.getElementById('pthread');
-  const order = [0, 4, 2];
+  const order = [1, 3, 6];
   let i = 0, alive = true;
   new IntersectionObserver(([e]) => { alive = e.isIntersecting; }).observe(th);
   async function play() {
@@ -1123,13 +1219,13 @@ const wait = (ms) => new Promise((r) => setTimeout(r, reduce ? 0 : ms));
 {
   const mock = document.querySelector('.replymock');
   const inEl = document.getElementById('rmIn'), outEl = document.getElementById('rmOut'), readEl = document.getElementById('rmRead'), dots = document.getElementById('rmDots');
-  const order = [0, 1, 2, 3, 4];
+  const order = [0, 3, 2, 4, 1, 5, 6];
   dots.innerHTML = order.map(() => '<i></i>').join('');
-  const close = (t) => esc(t).replace(/(Does [^?]+\?|Today at [^?]+\?)/, '<mark>$1</mark>');
+  const close = (x) => esc(x.send).replace(esc(x.key), '<mark>' + esc(x.key) + '</mark>');
   let i = 0, alive = false, timer = 0;
   function show() {
     const x = S[order[i % order.length]];
-    inEl.textContent = x.c; outEl.innerHTML = close(x.send); readEl.textContent = `${x.t} · ${x.s}`;
+    inEl.textContent = x.c; outEl.innerHTML = close(x); readEl.textContent = `${x.t} · ${x.move}`;
     [...dots.children].forEach((d, k) => d.classList.toggle('on', k === i % order.length));
   }
   function next() {

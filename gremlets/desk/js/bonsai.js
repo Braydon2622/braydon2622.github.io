@@ -232,7 +232,19 @@ export function renderBonsai(b, layout, scale, month, night, ageDays = 0) {
   const winter = isWinter(month);
   const r = new ArtRNG(b.seed + 9n);
   const px = (p) => [(p.x - minX) * k, (p.y - minY) * k];
-  const pline = (a, c, col, width) => { const [x0, y0] = px(a), [x1, y1] = px(c); cv.line(x0, y0, x1, y1, col, Math.max(1, width)); };
+  // A solid round-nibbed stroke: stamps a disc every half pixel, so a thick, slanting trunk or limb has no missing
+  // rows and its joints stay round (the canvas's own line() skips rows on steep, short segments).
+  const stroke = (x0, y0, x1, y1, col, width = 1) => {
+    const r = Math.max(0.5, width / 2), R = Math.ceil(r), n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) * 2));
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t;
+      if (r <= 0.5) { cv.set(int(x), int(y), col); continue; }
+      for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
+        if ((dx + 0.5) ** 2 + (dy + 0.5) ** 2 <= r * r + 0.25) cv.set(int(x) + dx, int(y) + dy, col);
+      }
+    }
+  };
+  const pline = (a, c, col, width) => { const [x0, y0] = px(a), [x1, y1] = px(c); stroke(x0, y0, x1, y1, col, Math.max(1, width)); };
 
   // No pot: the tree grows out of a mound of moss, a little flower in it for each round number reached.
   drawMossMound(cv, layout.potWidth * k * 1.7, px(V(0, 0)), b.seed, Math.min(5, (b.milestones || []).length), night, winter);
@@ -279,7 +291,7 @@ export function renderBonsai(b, layout, scale, month, night, ageDays = 0) {
       for (let n = 0; n < 5; n++) {
         const a = 0.25 + n * 0.65;
         const ex = cx + Math.cos(a) * rx * 0.9, ey = cy + Math.sin(a) * ry * 1.6;
-        cv.line(cx, cy, ex, ey, pal.bark);
+        stroke(cx, cy, ex, ey, pal.bark);
         cv.set(int(ex), int(ey) + 1, 0xFFFFFF);
       }
       continue;

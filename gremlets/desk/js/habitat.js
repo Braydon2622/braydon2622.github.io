@@ -13,7 +13,7 @@ import { Link } from './link.js';
 import { Garden } from './garden.js';
 import { Bridge } from './bridge.js';
 import { IslandArt, Biome, ledgeBiome, ledgeSeed } from './islands.js';
-import { Bonsai, layoutBonsai, renderBonsai, MAX_BRANCHES } from './bonsai.js';
+import { Bonsai, layoutBonsai, renderBonsai, MAX_BRANCHES } from './bonsai.js?v=20261111b';
 import { hex, PixelCanvas } from './pixelart.js';
 import { SproutArt } from './sproutart.js';
 import { Terrarium } from './terrarium.js';
@@ -186,7 +186,9 @@ function homeLayout() {
   const hx = Math.round((W * 0.5 - 70) / PX) * PX;
   // Low enough to hang clear of the toolbar card at the top of the page.
   const porchY = topY - 168, hammockY = topY - 160;
-  return { hx, porchY, hammockX: hx + 46 + 52, hammockY, topY };
+  // The rope bridge hangs just right of the house, with a clear gap so its ropes never cross the roof.
+  const bridgeW = BRIDGE_ART_W * PX;
+  return { hx, porchY, hammockX: hx + 23 * PX + 5 * PX + bridgeW / 2, hammockY, topY, bridgeW };
 }
 
 function homePlatforms() {
@@ -195,7 +197,7 @@ function homePlatforms() {
   const L = homeLayout();
   return [
     { id: 9001, x: L.hx - 2, y: L.porchY - PX * 2, w: 70, h: PX * 2, home: true },
-    { id: 9002, x: L.hammockX - 30, y: L.hammockY - PX * 2, w: 60, h: PX * 2, home: true },
+    { id: 9002, x: L.hammockX - L.bridgeW / 2, y: L.hammockY - PX * 2, w: L.bridgeW, h: PX * 2, home: true },
   ];
 }
 
@@ -216,13 +218,22 @@ function houseArt() {
   return cv.toCanvas();
 }
 
-function hammockArt(wpx) {
-  const cv = new PixelCanvas(wpx, 6);
-  for (let x = 0; x < wpx; x++) {
-    const t = x / (wpx - 1), top = 4 - Math.round(Math.sin(t * Math.PI) * 3.2);
-    cv.set(x, top, x % 4 < 2 ? 0xE8D7B0 : 0xD9855A); cv.set(x, top + 1, x % 4 < 2 ? 0xC9B48A : 0xB8683F);
-    if (night && x % 5 === 2) cv.set(x, Math.min(5, top + 2), [0xFFE45C, 0xFF8FB1, 0x8FD3FF][(x / 5 | 0) % 3]);
+/** A little hanging rope bridge: a flat deck of planks (its top row is the walking surface), a post at each end and
+ *  sagging rope rails tied to the deck with short hangers. Art pixels, y up. */
+const BRIDGE_ART_W = 24, BRIDGE_ART_H = 12, BRIDGE_DECK = 2;
+function bridgeArt() {
+  const w = BRIDGE_ART_W, cv = new PixelCanvas(w, BRIDGE_ART_H);
+  const plank = 0xB07A47, plankDark = 0x7A4E2D, plankLight = 0xC99460, rope = 0xD8BC86, ropeDark = 0xA9855A, post = 0x6E4428;
+  const rail = (x) => 8 - Math.round(Math.sin((x - 1) / (w - 3) * Math.PI) * 2.2);
+  for (let x = 0; x < w; x++) {
+    const seam = x % 4 === 3;
+    cv.set(x, BRIDGE_DECK, seam ? plankDark : (x % 8 < 4 ? plank : plankLight));
+    cv.set(x, BRIDGE_DECK - 1, seam ? 0x5E3B22 : plankDark);
   }
+  for (let x = 1; x < w - 1; x++) cv.set(x, rail(x), x % 2 ? rope : ropeDark);
+  for (let x = 4; x < w - 3; x += 3) for (let y = BRIDGE_DECK + 1; y < rail(x); y++) cv.set(x, y, rope);
+  for (const x of [0, 1, w - 2, w - 1]) for (let y = BRIDGE_DECK - 1; y <= 9; y++) cv.set(x, y, y === 9 ? plankLight : post);
+  if (night) for (let x = 5; x < w - 3; x += 6) cv.set(x, rail(x) - 1, [0xFFE45C, 0xFF8FB1, 0x8FD3FF][(x / 6 | 0) % 3]);
   cv.outline(0.7);
   return cv.toCanvas();
 }
@@ -230,16 +241,26 @@ function hammockArt(wpx) {
 function drawHome(g) {
   if (showcase || H < 420 || W < 600) return;
   const L = homeLayout(), top = H - L.topY;
-  const house = houseArt(), hm = hammockArt(20);
-  const houseTop = H - L.porchY - house.height * PX;
-  // Ropes up to the top edge.
-  g.strokeStyle = '#8a6b4a'; g.lineWidth = 1.5;
+  const house = houseArt(), br = bridgeArt();
+  const houseTop = H - L.porchY - house.height * PX + PX;
+  const bx = L.hammockX - L.bridgeW / 2;
+  const bTop = H - L.hammockY - (BRIDGE_ART_H - 1 - BRIDGE_DECK) * PX;       // the deck's top row sits on the platform
+  g.lineCap = 'round';
+  // The house hangs from a ring above its roof peak, on two ropes in a V.
+  const peakX = L.hx + 7.5 * PX, ringY = houseTop + PX - 5;
+  g.strokeStyle = '#8a6b4a'; g.lineWidth = 2;
   g.beginPath();
-  for (const x of [L.hx + 6, L.hx + 40]) { g.moveTo(x, houseTop + PX); g.lineTo(x, top); }
-  for (const x of [L.hammockX - 29, L.hammockX + 29]) { g.moveTo(x, H - L.hammockY - PX * 2); g.lineTo(x + (x < L.hammockX ? -6 : 6), top); }
+  g.moveTo(peakX - 16, top); g.lineTo(peakX, ringY - 2);
+  g.moveTo(peakX + 16, top); g.lineTo(peakX, ringY - 2);
+  g.moveTo(peakX, ringY + 2); g.lineTo(peakX, houseTop + PX * 1.5);
+  // The bridge hangs from its four post tops, the ropes splaying out a little toward the top edge.
+  const postTop = bTop + (BRIDGE_ART_H - 1 - 9) * PX;
+  for (const [x, dx] of [[bx + PX, -10], [bx + L.bridgeW - PX, 10]]) { g.moveTo(x, postTop); g.lineTo(x + dx, top); }
   g.stroke();
-  g.drawImage(house, L.hx, H - L.porchY - house.height * PX + PX * 1, house.width * PX, house.height * PX);
-  g.drawImage(hm, L.hammockX - 30, H - L.hammockY - PX * 5, hm.width * PX, hm.height * PX);
+  g.strokeStyle = '#6e4428'; g.lineWidth = 2;
+  g.beginPath(); g.arc(peakX, ringY, 3, 0, Math.PI * 2); g.stroke();
+  g.drawImage(house, L.hx, houseTop, house.width * PX, house.height * PX);
+  g.drawImage(br, bx, bTop, br.width * PX, br.height * PX);
 }
 
 const islandArt = new Map();     // `${biome}-${widthPx}-${seed}-${night}` → { body, decor } 1:1 canvases
