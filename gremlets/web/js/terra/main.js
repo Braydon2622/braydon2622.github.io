@@ -763,7 +763,18 @@ function drawClaude(t) {
 
 // ---------------------------------------------------------------- start
 
-async function wake() { try { await navigator.wakeLock?.request('screen'); } catch { /* not allowed here */ } }
+// Keep the iPad awake. iPadOS can drop the lock at any time (a notification, Low Power Mode, a tap elsewhere), so
+// hold on to it, ask again when it's released, on every tap, and once a minute as a backstop.
+let wakeLock = null;
+async function wake() {
+  if (document.hidden || (wakeLock && !wakeLock.released)) return;
+  try {
+    wakeLock = await navigator.wakeLock?.request('screen');
+    wakeLock?.addEventListener('release', () => { wakeLock = null; setTimeout(wake, 1000); });
+  } catch { wakeLock = null; /* not allowed here */ }
+}
+document.addEventListener('pointerdown', wake, { passive: true });
+setInterval(wake, 60_000);
 
 async function start() {
   layout();

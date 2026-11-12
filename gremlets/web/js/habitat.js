@@ -18,7 +18,7 @@ import { terrariumMode } from './terrarium.js';
 const params = new URLSearchParams(location.search);
 const showcase = params.get('showcase') || params.get('nft');
 const MAX = 12;
-const FAMILIES = [['animal', 'Animals'], ['insect', 'Insects & Bugs'], ['dragon', 'Dragons'], ['dino', 'Dinosaurs'], ['mythic', 'Mythical Beasts'], ['spirit', 'Spirits'], ['guardian', 'Guardians']];
+const FAMILIES = [['animal', 'Animals'], ['insect', 'Insects & Bugs'], ['dragon', 'Dragons'], ['dino', 'Dinosaurs'], ['mythic', 'Mythical Beasts'], ['spirit', 'Spirits'], ['guardian', 'Guardians'], ['versionone', 'Gremlets Version One']];
 
 const canvas = document.getElementById('world');
 const ctx = canvas.getContext('2d');

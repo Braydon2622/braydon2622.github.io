@@ -202,23 +202,32 @@ export function building(s) {
     const h = Math.floor(s.t / 3) % 4; cv.set(95 + (h === 1 ? 1 : 0), 75 + (h === 0 ? 1 : 0), 0x1E1A16); cv.set(95, 75, 0x1E1A16);
   }
 
-  if (has('farm')) {
-    const cx = 51, cy = 72;
-    for (let y = 68; y <= 76; y++) for (let x = 18; x <= 84; x++) {
-      const dx = x - cx, dy = y - cy;
-      const outer = (dx / 33) ** 2 + (dy / 4.6) ** 2, inner = (dx / 27) ** 2 + (dy / 1.9) ** 2;
-      if (outer > 1) continue;
-      if (inner <= 1) cv.set(x, y, 0x8BD66A);
-      else if (outer > 0.8) cv.set(x, y, (x + y) % 4 < 2 ? 0xE0453A : 0xF6EFDF);
-      else cv.set(x, y, 0x5E5E62);
+  if (has('farm')) {   // Rooftop Farm: two planter boxes, the farmer walks the rows during a trade, a sunflower on a green day
+    const soil = 0x5A3A22, plank = 0x9A6A3C, plankDark = 0x6B4428;
+    for (const [x0, x1] of [[18, 48], [54, 84]]) {
+      cv.rect(x0, 68, x1 - x0, 3, plank); cv.rect(x0, 68, x1 - x0, 1, plankDark);
+      cv.rect(x0, 70, x1 - x0, 1, 0xB8875A); cv.rect(x0 + 1, 71, x1 - x0 - 2, 1, soil);
+      for (let x = x0 + 2; x < x1 - 1; x += 4) cv.set(x, 68, plankDark);
+      let i = 0;
+      for (let x = x0 + 2; x < x1 - 2; x += 3, i++) {
+        const k = (i + x0) % 3;
+        if (k === 0) { cv.set(x, 72, 0x4C8A3A); cv.set(x + 1, 72, 0x6CC04A); cv.set(x, 73, 0x7FCB5A); }
+        else if (k === 1) { cv.set(x, 72, 0x5E9E46); cv.set(x, 73, 0x7FCB5A); cv.set(x + 1, 74, 0x5E9E46); cv.set(x, 71, 0xF08A2A); }
+        else { cv.set(x, 72, 0x4C8A3A); cv.set(x, 73, 0x5E9E46); cv.set(x + 1, 73, 0xE0453A); }
+      }
     }
-    for (let y = 68; y <= 70; y++) { cv.set(51, y, y % 2 === 0 ? 0xFFFFFF : 0x1E1A16); cv.set(52, y, y % 2 === 0 ? 0x1E1A16 : 0xFFFFFF); }
-    if (s.farmGreen) { cv.rect(80, 70, 1, 7, 0x3A2A1C); for (let y = 74; y <= 76; y++) for (let x = 81; x <= 84; x++) cv.set(x, y, (x + y) % 2 === 0 ? 0x1E1A16 : 0xFFFFFF); }
-    if (!s.farmOk) { cv.rect(24, 72, 3, 1, 0xF08A2A); cv.set(25, 73, 0xF08A2A); cv.set(25, 74, 0xFFFFFF); }
-    const u = s.racer ? s.racer.u : 0, col = s.racer ? (s.racer.green ? 0x5FD06A : 0xF06A5A) : 0xC9A15A;
-    const a = -Math.PI / 2 + 2 * Math.PI * u;
-    const x = Math.round(cx + 30 * Math.cos(a)) - 1, y = Math.round(cy + 3.2 * Math.sin(a));
-    cv.rect(x, y, 3, 2, col); cv.set(-Math.cos(a) >= 0 ? x : x + 2, y + 1, 0x1E1A16);
+    cv.rect(87, 68, 1, 8, 0x4C8A3A); cv.set(86, 71, 0x6CC04A); cv.set(85, 72, 0x6CC04A); cv.set(88, 73, 0x6CC04A);
+    if (s.farmGreen) {
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) if (Math.abs(dx) + Math.abs(dy) <= 3 && !(Math.abs(dx) === 2 && Math.abs(dy) === 2)) cv.set(87 + dx, 78 + dy, (dx + dy) % 2 === 0 ? 0xFFD24A : 0xF2B640);
+      cv.rect(86, 77, 2, 2, 0x7A4A1A);
+    } else { cv.rect(86, 76, 2, 2, 0x6CC04A); cv.set(87, 78, 0x5E9E46); }
+    if (!s.farmOk) { cv.set(22, 72, 0xA88A3A); cv.set(23, 73, 0xA88A3A); cv.rect(25, 72, 1, 3, plankDark); cv.rect(23, 75, 5, 3, 0xF6EFDF); cv.set(25, 76, 0xE0453A); }
+    if (s.racer) {
+      const x = 19 + Math.floor((s.racer.u % 1) * 64), bob = Math.floor(s.t * 4) % 2;
+      cv.rect(x, 71 + bob, 3, 3, 0x8BD66A); cv.rect(x, 74 + bob, 3, 1, 0x5E9E46);
+      cv.set(x, 72 + bob, 0x2A1A10); cv.set(x + 2, 72 + bob, 0x2A1A10);
+      cv.set(x + 3, 73 + bob, s.racer.green ? 0x5FD06A : 0xE0453A); cv.set(x + 3, 74 + bob, 0x4C8A3A);
+    }
   }
   // The moss meets the building (OfficeArt.dressMoss).
   if (has('workshop')) { cv.set(5, 54, 0xFFFFFF); cv.set(6, 53, 0xFFFFFF); }
@@ -246,7 +255,7 @@ export function cloud(t) {
 }
 
 const money = (v) => (v < 0 ? '-' : '') + '$' + Math.abs(v).toFixed(2);
-const ICON = { workshop: '🛠', railroad: '🚂', aquarium: '🐟', postOffice: '🕊', factory: '📦', board: '📌', farm: '🏁' };
+const ICON = { workshop: '🛠', railroad: '🚂', aquarium: '🐟', postOffice: '🕊', factory: '📦', board: '📌', farm: '🌻' };
 
 /** The Back Office view: a full-screen layer over the Terrarium, toggled with the 🏢 button. */
 export class OfficeView {
@@ -351,7 +360,7 @@ export class OfficeView {
     if (rooms.has('workshop')) rows.push(['🛠', 'Workshop', `${s.workers} at their desks · ${r.claudeDone} task${r.claudeDone === 1 ? '' : 's'} done`]);
     if (rooms.has('railroad')) rows.push(['🚂', 'Railroad', `${r.sales} sale${r.sales === 1 ? '' : 's'} · ${money(r.salesTotal)}`]);
     if (rooms.has('aquarium')) rows.push(['🐟', 'Aquarium', `${r.bots} bot${r.bots === 1 ? '' : 's'} · ${money(r.pnl)}`]);
-    if (rooms.has('farm')) rows.push(['🏁', 'Racetrack', r.farmTrades ? `${r.farmTrades} trade${r.farmTrades === 1 ? '' : 's'} · ${money(r.farmPnl)}` : 'no trades today']);
+    if (rooms.has('farm')) rows.push(['🌻', 'Rooftop Farm', r.farmTrades ? `${r.farmTrades} trade${r.farmTrades === 1 ? '' : 's'} · ${money(r.farmPnl)}` : 'no trades today']);
     if (rooms.has('postOffice')) rows.push(['🕊', 'Post Office', `${s.letters} letter${s.letters === 1 ? '' : 's'}${s.unread ? ` · ${s.unread} new` : ''}`]);
     if (rooms.has('factory')) rows.push(['📦', 'Factory', `${r.runs} run${r.runs === 1 ? '' : 's'}`]);
     const nums = this.root.querySelector('.nums'); nums.replaceChildren();
