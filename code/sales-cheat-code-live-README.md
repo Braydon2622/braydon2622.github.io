@@ -1,8 +1,8 @@
 # Sales Call Cheat Code
 
-**An AI coach for mortgage loan officers.** During a sales call it notices the moments that matter (an objection, a buying signal, a tricky question, a request to stop calling) and puts a short coaching card on the loan officer's screen. After a call, it turns the transcript into a coaching report and a ready-to-send follow-up text. Every suggestion passes compliance checks first: no rate quotes, no approval promises, and opt-outs honored.
+**An AI coach for mortgage loan officers.** It coaches live during a call, reviews recorded calls, and shows a manager where calls go wrong across the team. During a sales call it notices the moments that matter (an objection, a buying signal, a tricky question, a request to stop calling) and puts a short coaching card on the loan officer's screen. After a call, it turns the transcript into a coaching report and a ready-to-send follow-up text. Every suggestion passes compliance checks first: no rate quotes, no approval promises, and opt-outs honored.
 
-I'm a sales director leading a team of nine loan officers, and I built this to coach my team. It grew out of the "Sales Cheat Code" prompts and n8n workflows I already use (`reference/`).
+I'm a sales director leading a team of nine loan officers, and I built this to coach my team. It grew out of Sales Text Cheat Code, the text-reply prompts and n8n workflows my team already uses (`reference/`).
 
 ![Call review app](docs/images/call-review-app.jpg)
 
@@ -78,9 +78,14 @@ Live calls need streaming speech-to-text and a desktop app. Recorded calls don't
 The result is a short coaching report the loan officer can read in a minute:
 - **What you did well:** the 1–3 best moments, each tied to the exact line, with why it worked.
 - **What to do better:** the 1–3 changes that would have helped most, each with **"try instead" wording**. That wording is rule-checked like a live card and withheld if it breaks a rule.
-- **Every compliance slip** in the loan officer's own words: the deterministic rules check every line, and the AI adds subtler ones. A client line can't count as a rep slip.
+- Compliance is checked in the background (rate quotes, approval promises and the like are caught by deterministic rules plus the AI) but not shown as its own section; a slip usually comes up as a "do better" item.
 - Summary, temperature, stage, next step, and follow-up timing.
 - **A follow-up text**, checked against my texting rules and replaced with a safe one if it breaks any.
+
+**Where calls go wrong.** Each report also has a "Where it went wrong" panel, and the **Where calls go wrong** button shows the patterns across every reviewed call (`src/review/insights.ts`):
+- **Measured from the transcript, no AI:** how much of the talking the loan officer did (flagged over 60%), questions asked, and the longest stretch without the client speaking (flagged over 60 seconds).
+- **Tagged by the AI review:** the **turning point** (the line where the call went off track or the lead cooled), whether a **specific next step was booked**, and a category for every "do better" item (Discovery, Objection handling, Next step / close, Rapport, Talked too much, Explaining options, Compliance).
+- **Across calls:** the most common misses with example moments you can click into, compliance slips by rule, where leads stand after the call (stage by temperature), the share of calls that ended with a booked next step, and recent turning points. Mock reviews are left out unless you tick a box.
 
 **Feedback goes back to the AI.** Each highlight has 👍/👎 and a note, and each review has a 1–5 rating and a note. Before every new review, the AI is given the most useful recent feedback (`collectFeedback` in `src/review/review.ts`: thumbs-downs and written notes rank first, mock reviews are skipped). The page shows exactly what it's being told, and the prompt states that feedback never overrides the compliance rules. This steers the AI with a prompt; it doesn't retrain the model.
 
@@ -107,7 +112,7 @@ Requires Node 22+.
 
 ```bash
 npm install
-npm test                      # 136 tests, no API calls needed
+npm test                      # 141 tests, no API calls needed
 
 # Demo: replay a synthetic call with the chip and cards appearing live
 npm run demo:video                    # call-18, real time, countdown: ready to screen-record (docs/DEMO.md)
