@@ -174,7 +174,7 @@ export class Desktop {
       el.innerHTML = `<div class="tb">${lights}<span class="t">${def.title}</span></div><div class="term"><div class="ln o">╭ Claude Code</div><div class="ln d">  ~/gremlets · Opus 5.5</div><div class="ln">&gt; add a porch with a rain barrel</div><div class="ln g">● Edited 6 files · tests pass</div></div>`;
       this.term = el.querySelector('.term');
     } else if (def.app === 'notes') {
-      el.innerHTML = `<div class="tb">${lights}<span class="t">Notes</span></div><div class="notes"><div class="pg"><b>Today</b><span>✓ Porch life</span><span>✓ Terrarium</span><span>☐ Back Office</span></div></div>`;
+      el.innerHTML = `<div class="tb">${lights}<span class="t">Notes</span></div><div class="notes"><div class="pg"><b>Today</b><span>✓ Porch life</span><span>✓ Terrarium</span><span>☐ Focus Garden</span></div></div>`;
     } else {
       el.innerHTML = `<div class="tb">${lights}<span class="t">Music</span></div><div class="music"><div class="art"></div><div class="meta"><b>Moss Radio</b><span>Lo-fi garden</span><div class="bar2"><i></i></div></div></div>`;
     }
