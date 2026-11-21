@@ -518,6 +518,18 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
 @media (max-width:560px){.tr-res{grid-template-columns:1fr}}
 .tr-res div{padding:14px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-edge);box-shadow:var(--shadow);display:grid;gap:4px}
 .tr-res b{font-family:var(--display);font-size:24px;line-height:1.05}.tr-res span{font-size:14px;color:var(--soft);line-height:1.4}
+
+/* the same paper and ink as the main page */
+:root{--bg:#f3f0e8;--ink:#111512;--soft:#4a524c;--faint:#727a73;--glass:#fbfaf5;--glass-edge:rgba(17,21,18,.14);--line:rgba(17,21,18,.14);--shadow:none;--lantern:#f5b83d}
+body{background:var(--bg)}
+.glass{-webkit-backdrop-filter:none;backdrop-filter:none}
+h1,h2,h3{font-weight:800;font-variation-settings:"wdth" 84;letter-spacing:-.025em}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-weight:500;font-size:12.5px;color:var(--faint)}
+.nav .bar{background:rgba(13,17,15,.92);border-color:rgba(255,255,255,.12);box-shadow:0 14px 34px -20px rgba(0,0,0,.6);color:#f3f0e8}
+.nav ul a{color:rgba(243,240,232,.72)}
+.nav ul a:hover,.nav ul a[aria-current]{color:#fff;background:rgba(255,255,255,.1)}
+.nav .pill.resume{background:transparent;color:#f3f0e8;border-color:rgba(255,255,255,.2)}
+.state a,.more p a{color:inherit}
 </style>
 </head>
 <body>
@@ -527,9 +539,8 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
       <a class="me" href="../">Braydon Hart</a>
       <ul>
         <li><a href="../#work">Work</a></li>
-        <li><a href="../#training">Training</a></li>
-        <li><a href="../#approach">Approach</a></li>
-        <li><a href="../#gremlets">Gremlets</a></li>
+        <li><a href="../#studio">Studio</a></li>
+        <li><a href="../#sites">Sites</a></li>
         <li><a href="../#about">About</a></li>
         <li><a href="./" aria-current="page">Made</a></li>
         <li><a href="../work/">Index</a></li>
@@ -567,6 +578,7 @@ dialog.lb::backdrop{background:rgba(214,230,222,.6);-webkit-backdrop-filter:blur
       <h3>Azoki Market</h3>
       <p>An AI crew runs my woven blanket store built on public domain art like Hokusai's Great Wave. It builds listings in Printify, publishes to Amazon and reports sales.</p>
       <p class="r">Launched October 2026 with 12 products. Anything that spends money waits for my approval.</p>
+      <p>Its own storefront is live at <a href="https://azokimarket.com" target="_blank" rel="noopener">azokimarket.com</a> and opening soon, with prints, tapestries and glow boxes from the worlds of <a href="https://azokistudios.com" target="_blank" rel="noopener">Azoki Studios</a>.</p>
     </article>
   </div>
 </section>

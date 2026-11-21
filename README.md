@@ -2,6 +2,8 @@
 
 I'm a sales director in Metro Detroit who builds AI tools and trains people to actually use them. This repo is the source of my portfolio site, braydonhartai.com: the page itself (`index.html`), the Gremlets playground, and the real n8n workflows and prompts behind my sales tools. Large downloads and videos live only on the live site.
 
+The page has two halves. The top is my AI work for sales teams. Below the waterline is [Azoki Studios](https://azokistudios.com), my one-person studio: Code Sea, Hearthside, Coded Lens, Gremlets, Winterville and Desktop Reef, plus the three sites I built for them ([azokistudios.com](https://azokistudios.com), [azokimarket.com](https://azokimarket.com) and [codedlens.com](https://codedlens.com)). Styles are in `css/site.css`; page behaviour is in `js/` (`portfolio.js` for the sales coach demo and the Gremlets playground, `sea.js` for the text sea, `site.js` for everything else).
+
 **Portfolio:** open `index.html`, or visit the live site at https://braydonhartai.com.
 **LinkedIn:** https://www.linkedin.com/in/braydon-hart-392336209/
 **Code:** [Sales Call Cheat Code](https://github.com/Braydon2622/sales-cheat-code-live) · [Gremlets](https://github.com/Braydon2622/gremlets)
