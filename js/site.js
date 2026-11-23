@@ -113,6 +113,18 @@
     f(); setInterval(f, 20000);
   }
 
+  /* Code Realm lights each painting by the real clock */
+  function realmClock() {
+    const el = $('#realmClock'); if (!el) return;
+    const f = () => {
+      const n = new Date(), h = n.getHours() + n.getMinutes() / 60;
+      const light = h < 5 ? 'night' : h < 8 ? 'dawn' : h < 11 ? 'morning' : h < 14 ? 'noon' : h < 17.5 ? 'afternoon' : h < 20.5 ? 'dusk' : 'night';
+      const hm = String(n.getHours()).padStart(2, '0') + ':' + String(n.getMinutes()).padStart(2, '0');
+      el.textContent = '> it is ' + hm + ' where you are. the realm would be in ' + light + ' light.';
+    };
+    f(); setInterval(f, 60000);
+  }
+
   /* Winterville's clock tower counts down to Christmas. So does its card. */
   function xmasClock() {
     const el = $('#xmasClock'); if (!el) return;
@@ -122,5 +134,5 @@
     el.textContent = days === 0 ? '> it is christmas day. the square is full.' : '> christmas is in ' + days + (days === 1 ? ' day' : ' days') + '. the clock tower is counting too.';
   }
 
-  reveals(); waves(); tabs(); dial(); pan(); embeds(); whaleClock(); xmasClock();
+  reveals(); waves(); tabs(); dial(); pan(); embeds(); whaleClock(); realmClock(); xmasClock();
 })();
