@@ -353,6 +353,13 @@ details[open] > summary::before{content:"\2212"}
 .gmac img.cover{aspect-ratio:16/9;object-fit:cover;object-position:top}
 .gmac img.px{image-rendering:pixelated;background:linear-gradient(#d9ecf8,#eef6ea);aspect-ratio:16/9;object-fit:contain;padding:10px 14px}
 @media (min-width:641px) and (max-width:980px){.gmac > article:last-child{grid-column:1/-1}.gmac > article:last-child img{aspect-ratio:21/6}}
+.hero{overflow-x:clip}
+.gnew{margin-top:28px;display:grid;gap:14px}
+.gnew-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:860px){.gnew-grid{grid-template-columns:1fr}}
+.gnew article{padding:18px 18px 20px;border-radius:18px;border:1px solid var(--line);background:var(--card);display:grid;gap:8px;align-content:start;border-top:2px solid #8fe36b}
+.gnew h4{margin:0;font:800 19px var(--display);font-variation-settings:"wdth" 86;letter-spacing:-.01em}
+.gnew article p{margin:0;font-size:14.5px;color:var(--soft);line-height:1.5}
 .gmac h4{margin:4px 6px 0;font:800 19px var(--display);font-variation-settings:"wdth" 86;letter-spacing:-.01em}
 .gmac p{margin:0 6px;font-size:14.5px;color:var(--soft);line-height:1.5}
 .gdl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
