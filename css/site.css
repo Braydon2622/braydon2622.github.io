@@ -636,3 +636,4 @@ h1 em,h2 em,h3 em{font-family:inherit;font-style:normal;font-weight:inherit;font
 .show-status{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap}
 .show-buy .row{flex-wrap:nowrap}
 @media (max-width:980px){.show-info{grid-template-columns:1fr;gap:16px}.show-buy .row{flex-wrap:wrap}}
+@media (min-width:761px){.nums.n3{grid-template-columns:repeat(3,minmax(0,1fr))}}
