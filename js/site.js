@@ -51,6 +51,30 @@
     });
   }
 
+  /* Product footage: nothing downloads until a product is on screen. Each one tours its
+     scenes until you pick one; then it loops that scene. Off screen, it pauses. */
+  function clips() {
+    $$('.show').forEach((box) => {
+      const v = $('video', box); if (!v) return;
+      const btns = $$('.show-tabs button', box), names = btns.map((b) => b.dataset.clip);
+      let cur = v.dataset.clip, picked = false, seen = false;
+      const load = (name, play) => {
+        cur = name;
+        v.poster = 'video/studio/' + name + '.jpg';
+        v.src = 'video/studio/' + name + '.mp4';
+        btns.forEach((b) => b.setAttribute('aria-selected', b.dataset.clip === name ? 'true' : 'false'));
+        if (play) v.play().catch(() => {});
+      };
+      btns.forEach((b) => b.addEventListener('click', () => { picked = true; v.loop = true; load(b.dataset.clip, true); }));
+      v.addEventListener('ended', () => { if (!picked && names.length > 1) load(names[(names.indexOf(cur) + 1) % names.length], true); });
+      if (reduce || !('IntersectionObserver' in window)) { v.controls = true; v.preload = 'metadata'; v.src = 'video/studio/' + cur + '.mp4'; return; }
+      new IntersectionObserver((es) => {
+        if (es[0].isIntersecting) { if (!seen) { seen = true; load(cur, true); } else v.play().catch(() => {}); }
+        else v.pause();
+      }, { threshold: 0.35 }).observe(v);
+    });
+  }
+
   /* Hearthside: drag the clock from noon through sunset into night */
   function dial() {
     const d = $('#dial'), scr = $('#daylight'); if (!d || !scr) return;
@@ -134,5 +158,5 @@
     el.textContent = days === 0 ? '> it is christmas day. the square is full.' : '> christmas is in ' + days + (days === 1 ? ' day' : ' days') + '. the clock tower is counting too.';
   }
 
-  reveals(); waves(); tabs(); dial(); pan(); embeds(); whaleClock(); realmClock(); xmasClock();
+  reveals(); waves(); clips(); tabs(); dial(); pan(); embeds(); whaleClock(); realmClock(); xmasClock();
 })();

@@ -303,197 +303,133 @@
   <p class="next"><b>Building next:</b> a New Hire Ramp Coach with 30, 60 and 90 day plans, AI role play practice and a manager view, built from the milestones I use to onboard my own hires.</p>
 </section>
 
-<!-- ================================================================== the waterline -->
-<div class="waterline" aria-hidden="true">
-  <div class="waves"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-  <p>↓ below the surface: the studio</p>
-</div>
-
 <!-- ================================================================== 02 STUDIO -->
 <div class="studio deep" id="studio">
-  <div class="st-hero">
-    <canvas id="sea" aria-hidden="true"></canvas>
-    <div class="st-shade" aria-hidden="true"></div>
-    <div class="wrap">
-      <div class="st-copy">
-        <p class="label"><b>02</b>Azoki Studios · my one-person studio</p>
-        <h2>The other half: worlds that live on your <em>desktop.</em></h2>
-        <p class="lead">An ocean drawn entirely in text. Paintings rebuilt from living code. A coral lagoon and a painted village that grow around your icons. Pixel creatures that climb your windows, and a tool that turns any video into letters. I design, direct and ship every one of them, working with AI.</p>
-        <div class="row">
-          <a class="btn amber" href="https://azokistudios.com" target="_blank" rel="noopener">Visit azokistudios.com <span class="arr" aria-hidden="true">↗</span></a>
-          <a class="btn" href="#sites">The three sites <span class="arr" aria-hidden="true">↓</span></a>
-        </div>
-        <div class="st-stats">
-          <div><b>7</b><span>products</span></div>
-          <div><b>3</b><span>released this month</span></div>
-          <div><b>3</b><span>live sites</span></div>
-          <div><b>1</b><span>person</span></div>
-        </div>
-      </div>
+  <div class="wrap st-intro">
+    <p class="label"><b>02</b>Azoki Studios · my one-person studio</p>
+    <h2>Software I design, build and ship myself.</h2>
+    <p class="lead">Live wallpapers, a web tool and desktop companions. Everything below is real footage of the apps running, not mock-ups.</p>
+    <div class="st-stats">
+      <div><b>7</b><span>products</span></div>
+      <div><b>3</b><span>released this month</span></div>
+      <div><b>3</b><span>live sites</span></div>
     </div>
-    <p class="hint" aria-hidden="true"><span class="k">&gt;&lt;&gt;</span> rest your cursor on the water and the fish get fed. move it and they bolt.</p>
   </div>
 
   <section class="wrap" id="codesea">
-    <article class="piece reveal" style="--accent:#6fe7ff">
-      <div class="piece-info">
-        <p class="piece-no"><b>01</b>Live wallpaper · Windows</p>
-        <h3>Code Sea</h3>
-        <p class="piece-tag">A living ocean behind your desktop icons, drawn entirely in text.</p>
-        <p class="piece-body">Every creature is a 3D model rasterised into monospace characters, every frame. Jellyfish pulse and rise, a school of hundreds flows and flashes, sharks hunt, and a whale rises out of the dark and fills the screen. It swims around your icons and watches your mouse.</p>
-        <p class="clock" id="whaleClock" aria-live="off"></p>
-        <dl class="meta">
-          <div><dt>Status</dt><dd><span class="dot live"></span>Released, v1.0.0, $1 on itch.io</dd></div>
-          <div><dt>Drawn</dt><dd>240 × 77 characters at 1080p, redrawn every frame</dd></div>
-          <div><dt>Built with</dt><dd>WebGL, Tauri and Rust, one sea per monitor</dd></div>
-          <div><dt>Tested</dt><dd>25 automated tests the sea has to pass</dd></div>
-        </dl>
-        <div class="row">
-          <a class="btn amber" href="https://braydon262.itch.io/code-sea" target="_blank" rel="noopener">Get it for $1</a>
-          <a class="btn" href="https://azokistudios.com/codesea/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a>
-        </div>
+    <article class="show reveal" style="--accent:#6fe7ff">
+      <div class="show-screen">
+        <video muted playsinline preload="none" poster="video/studio/sea-whale.jpg" data-clip="sea-whale" aria-label="Code Sea running: an ocean drawn in text characters"></video>
       </div>
-      <div class="piece-show">
-        <div class="view" data-tabs>
-          <img class="on" src="img/studio/codesea-open-day.jpg" alt="Code Sea, open water: reef fish over a text reef, behind desktop icons" loading="lazy" width="1600" height="900">
-          <img src="img/studio/codesea-school-shark-day.jpg" alt="Code Sea: a great white shark hunting through a school of fish" loading="lazy" width="1600" height="900">
-          <img src="img/studio/codesea-bloom-day.jpg" alt="Code Sea: jellyfish of every size rising from the deep" loading="lazy" width="1600" height="900">
-          <img src="img/studio/codesea-deep-night.jpg" alt="Code Sea: the deep at night with glowing plankton" loading="lazy" width="1600" height="900">
-          <img src="img/studio/codesea-whale-rise-day.jpg" alt="Code Sea: a humpback whale made of letters rising across the screen" loading="lazy" width="1600" height="900">
-        </div>
-        <div class="tabs" role="tablist" aria-label="Code Sea scenes">
-          <button role="tab" aria-selected="true">Open water</button>
-          <button role="tab" aria-selected="false">The school</button>
-          <button role="tab" aria-selected="false">Jelly bloom</button>
-          <button role="tab" aria-selected="false">The deep</button>
-          <button role="tab" aria-selected="false">The whale</button>
+      <div class="show-tabs" role="tablist" aria-label="Code Sea scenes">
+        <button role="tab" data-clip="sea-whale" aria-selected="true">The whale</button>
+        <button role="tab" data-clip="sea-school" aria-selected="false">The school</button>
+        <button role="tab" data-clip="sea-bloom" aria-selected="false">Jelly bloom</button>
+        <button role="tab" data-clip="sea-deep" aria-selected="false">The deep</button>
+        <button role="tab" data-clip="sea-open" aria-selected="false">Open water</button>
+      </div>
+      <div class="show-info">
+        <div class="show-name"><p class="show-kind">Live wallpaper · Windows</p><h3>Code Sea</h3></div>
+        <p class="show-line">A living ocean behind your desktop icons, drawn entirely in text. Every creature is a 3D model redrawn in letters each frame, and a whale rises at the top of every hour.</p>
+        <div class="show-buy">
+          <p class="show-status"><span class="dot live"></span>Released · v1.0.0 · $1</p>
+          <div class="row">
+            <a class="btn amber" href="https://braydon262.itch.io/code-sea" target="_blank" rel="noopener">Get it for $1</a>
+            <a class="btn" href="https://azokistudios.com/codesea/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a>
+          </div>
         </div>
       </div>
     </article>
   </section>
 
   <section class="wrap" id="coderealm">
-    <article class="piece flip reveal" style="--accent:#f0b25a">
-      <div class="piece-info">
-        <p class="piece-no"><b>02</b>Live wallpaper · Windows · new this week</p>
-        <h3>Code Realm</h3>
-        <p class="piece-tag">Cinematic paintings, redrawn in thousands of coloured letters and kept alive.</p>
-        <p class="piece-body">Ten scenes, from a knight's vigil in a wildflower meadow to a pirate broadside. Every letter is picked to match the paint underneath it, so an edge becomes a slash and not a grey blob. Then the picture moves: figures breathe and turn, banners ripple, fires flicker and the light follows your real clock.</p>
-        <p class="clock" id="realmClock" aria-live="off"></p>
-        <dl class="meta">
-          <div><dt>Status</dt><dd><span class="dot live"></span>Released, v1.0.0, $1 on itch.io</dd></div>
-          <div><dt>Scenes</dt><dd>10, each lit for dawn, noon, dusk, night and storm</dd></div>
-          <div><dt>Drawn</dt><dd>Two passes on the graphics card, six samples per letter</dd></div>
-          <div><dt>Art</dt><dd>AI-assisted paintings, traced and animated by code I directed</dd></div>
-        </dl>
-        <div class="row">
-          <a class="btn amber" href="https://braydon262.itch.io/code-realm" target="_blank" rel="noopener">Get it for $1</a>
-          <a class="btn" href="https://azokistudios.com/coderealm/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a>
+    <article class="show reveal" style="--accent:#f0b25a">
+      <div class="show-screen">
+        <video muted playsinline preload="none" poster="video/studio/realm-vigil.jpg" data-clip="realm-vigil" aria-label="Code Realm running: a painting redrawn in coloured letters, moving"></video>
+      </div>
+      <div class="show-tabs" role="tablist" aria-label="Code Realm scenes">
+        <button role="tab" data-clip="realm-vigil" aria-selected="true">The Vigil</button>
+        <button role="tab" data-clip="realm-highpass" aria-selected="false">The High Pass</button>
+        <button role="tab" data-clip="realm-wanderer" aria-selected="false">The Wanderer</button>
+        <button role="tab" data-clip="realm-broadside" aria-selected="false">The Broadside</button>
+        <button role="tab" data-clip="realm-stag" aria-selected="false">The White Stag</button>
+        <button role="tab" data-clip="realm-landfall" aria-selected="false">The Landfall</button>
+      </div>
+      <div class="show-info">
+        <div class="show-name"><p class="show-kind">Live wallpaper · Windows · new this week</p><h3>Code Realm</h3></div>
+        <p class="show-line">Ten cinematic paintings redrawn in thousands of coloured letters and kept alive: figures breathe, banners ripple, fires flicker and the light follows your real clock. The paintings are AI-assisted; the tracing and animation are code.</p>
+        <div class="show-buy">
+          <p class="show-status"><span class="dot live"></span>Released · v1.0.0 · $1</p>
+          <div class="row">
+            <a class="btn amber" href="https://braydon262.itch.io/code-realm" target="_blank" rel="noopener">Get it for $1</a>
+            <a class="btn" href="https://azokistudios.com/coderealm/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a>
+          </div>
         </div>
       </div>
-      <div class="piece-show">
-        <div class="view" data-tabs>
-          <img class="on" src="img/studio/realm-vigil.jpg" alt="Code Realm, The Vigil: a knight kneeling at his sword in a wildflower meadow under gold clouds, drawn in letters" loading="lazy" width="1440" height="810">
-          <img src="img/studio/realm-wanderer.jpg" alt="Code Realm, The Wanderer: a samurai in golden rice under a red maple" loading="lazy" width="1440" height="810">
-          <img src="img/studio/realm-landfall.jpg" alt="Code Realm, The Landfall: a Viking chieftain on a headland as longships come up the fjord" loading="lazy" width="1440" height="810">
-          <img src="img/studio/realm-high-pass.jpg" alt="Code Realm, The High Pass: a mounted knight in a blizzard facing a dragon breathing fire" loading="lazy" width="1440" height="810">
-          <img src="img/studio/realm-white-stag.jpg" alt="Code Realm, The White Stag: a glowing stag by a waterfall in a night forest" loading="lazy" width="1440" height="810">
-          <img src="img/studio/realm-broadside.jpg" alt="Code Realm, The Broadside: a pirate captain as his cannons fire on a burning warship" loading="lazy" width="1440" height="810">
-        </div>
-        <div class="tabs" role="tablist" aria-label="Code Realm scenes">
-          <button role="tab" aria-selected="true">The Vigil</button>
-          <button role="tab" aria-selected="false">The Wanderer</button>
-          <button role="tab" aria-selected="false">The Landfall</button>
-          <button role="tab" aria-selected="false">The High Pass</button>
-          <button role="tab" aria-selected="false">The White Stag</button>
-          <button role="tab" aria-selected="false">The Broadside</button>
+    </article>
+  </section>
+
+  <section class="wrap" id="reef">
+    <article class="show reveal" style="--accent:#3fe6cf">
+      <div class="show-screen">
+        <video muted playsinline loop preload="none" poster="video/studio/reef-day.jpg" data-clip="reef-day" aria-label="Desktop Reef running: a tropical lagoon seen from above, with desktop icons on a sand island"></video>
+      </div>
+      <div class="show-info">
+        <div class="show-name"><p class="show-kind">Live wallpaper · Windows · new this week</p><h3>Desktop Reef</h3></div>
+        <p class="show-line">A tropical lagoon that grows around your desktop icons. Icons sit on islands of sand, coral fills the water between them, the sky follows your real weather, and a file dragged into the whirlpool goes to the Recycle Bin.</p>
+        <div class="show-buy">
+          <p class="show-status"><span class="dot live"></span>Released · v1.0.2 · $1</p>
+          <div class="row">
+            <a class="btn amber" href="https://braydon262.itch.io/desktop-reef" target="_blank" rel="noopener">Get it for $1</a>
+            <a class="btn" href="https://azokistudios.com/desktop-reef/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a>
+          </div>
         </div>
       </div>
     </article>
   </section>
 
   <section class="wrap" id="hearthside">
-    <article class="piece reveal" style="--accent:#ffa24d">
-      <div class="piece-info">
-        <p class="piece-no"><b>03</b>Live wallpaper · Windows</p>
-        <h3>Hearthside</h3>
-        <p class="piece-tag">A hand-painted village that rearranges itself around your icons.</p>
-        <p class="piece-body">Icons get open plazas under them, houses and trees step aside, paths link groups of icons, and villagers, a cat and a dog stroll the lanes. Drag an icon somewhere new and the ground ripples out from where you dropped it.</p>
-        <dl class="meta">
-          <div><dt>Status</dt><dd><span class="dot demo"></span>Free and open source, playable in the browser</dd></div>
-          <div><dt>Cost</dt><dd>5 to 9% of one CPU core, under 1% when covered</dd></div>
-          <div><dt>Built with</dt><dd>One WebGL2 renderer, Tauri v2 and Rust</dd></div>
-          <div><dt>Art</dt><dd>One 28 colour palette, one light, 1,000+ props placed by code</dd></div>
-        </dl>
-        <div class="row">
-          <a class="btn amber" href="https://braydon2622.github.io/hearthside/" target="_blank" rel="noopener">Try the browser demo</a>
-          <a class="btn" href="https://github.com/Braydon2622/hearthside" target="_blank" rel="noopener">Source on GitHub <span class="arr" aria-hidden="true">↗</span></a>
-        </div>
+    <article class="show reveal" style="--accent:#ffa24d">
+      <div class="show-screen">
+        <video muted playsinline preload="none" poster="video/studio/hearth-sunset.jpg" data-clip="hearth-sunset" aria-label="Hearthside running: a hand-painted village seen from above"></video>
       </div>
-      <div class="piece-show">
-        <div class="view" id="daylight">
-          <img class="on" src="img/studio/hearthside-noon.jpg" alt="Hearthside at noon: a painted village seen from above, with plazas under the desktop icons" loading="lazy" width="1600" height="900">
-          <img src="img/studio/hearthside-sunset.jpg" alt="Hearthside at sunset" loading="lazy" width="1600" height="900">
-          <img src="img/studio/hearthside-night.jpg" alt="Hearthside at night" loading="lazy" width="1600" height="900">
-        </div>
-        <label class="dial">
-          <span class="dial-time" id="dialTime">12:00</span>
-          <input type="range" id="dial" min="12" max="24" step="0.05" value="12" aria-label="Time of day in the village">
-          <span class="dial-ends"><i>noon</i><i>sunset</i><i>night</i></span>
-        </label>
+      <div class="show-tabs" role="tablist" aria-label="Hearthside times of day">
+        <button role="tab" data-clip="hearth-sunset" aria-selected="true">Sunset</button>
+        <button role="tab" data-clip="hearth-noon" aria-selected="false">Noon</button>
+        <button role="tab" data-clip="hearth-night" aria-selected="false">Night</button>
       </div>
-    </article>
-  </section>
-
-  <section class="wrap" id="reef">
-    <article class="piece flip reveal" style="--accent:#3fe6cf">
-      <div class="piece-info">
-        <p class="piece-no"><b>04</b>Live wallpaper · Windows · new this week</p>
-        <h3>Desktop Reef</h3>
-        <p class="piece-tag">A living tropical lagoon that grows around your desktop icons.</p>
-        <p class="piece-body">The bright one. Your icons sit on islands of sand ringed with palms, and coral gardens grow in the shallows between them. Fish, sharks, turtles and people in boats go about their day, the sky follows your real weather, and a file dragged into the whirlpool goes to the Recycle Bin.</p>
-        <dl class="meta">
-          <div><dt>Status</dt><dd><span class="dot live"></span>Released, v1.0.2, $1 on itch.io</dd></div>
-          <div><dt>Your files</dt><dd>Shape the scene: jetties, a lighthouse, islands under icons</dd></div>
-          <div><dt>Weather</dt><dd>Live, from open-meteo.com</dd></div>
-          <div><dt>Cost</dt><dd>About 4% of a mid-range CPU</dd></div>
-        </dl>
-        <div class="row">
-          <a class="btn amber" href="https://braydon262.itch.io/desktop-reef" target="_blank" rel="noopener">Get it for $1</a>
-          <a class="btn" href="https://azokistudios.com/desktop-reef/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a>
+      <div class="show-info">
+        <div class="show-name"><p class="show-kind">Live wallpaper · Windows</p><h3>Hearthside</h3></div>
+        <p class="show-line">A hand-painted village that rearranges itself around your icons. Plazas open under them, houses and trees step aside, and villagers stroll the lanes, for 5 to 9% of one CPU core.</p>
+        <div class="show-buy">
+          <p class="show-status"><span class="dot demo"></span>Free · open source</p>
+          <div class="row">
+            <a class="btn amber" href="https://braydon2622.github.io/hearthside/" target="_blank" rel="noopener">Try it in your browser</a>
+            <a class="btn" href="https://github.com/Braydon2622/hearthside" target="_blank" rel="noopener">Source <span class="arr" aria-hidden="true">↗</span></a>
+          </div>
         </div>
-      </div>
-      <div class="piece-show">
-        <div class="view pan" id="reefPan"><img class="on" src="img/studio/reef-wide.jpg" alt="Desktop Reef: bright coral gardens in turquoise shallows, seen from above" loading="lazy" width="1500" height="620"></div>
-        <p class="caption">&gt; move across the picture to look around the lagoon.</p>
       </div>
     </article>
   </section>
 
   <section class="wrap" id="codedlens">
-    <article class="piece reveal" style="--accent:#9db8ff">
-      <div class="piece-info">
-        <p class="piece-no"><b>05</b>Web tool · any browser</p>
-        <h3>Coded Lens</h3>
-        <p class="piece-tag">Turn any video into ASCII art.</p>
-        <p class="piece-body">Drop in a clip or a photo and every frame gets rebuilt from glowing colored letters, ready to download as an MP4 or GIF sized for TikTok, Reels or Shorts. It all runs in your browser, so your clips never leave your device.</p>
-        <dl class="meta">
-          <div><dt>Status</dt><dd><span class="dot live"></span>Live at codedlens.com, free with Pro</dd></div>
-          <div><dt>Looks</dt><dd>10, from Code Sea to Matrix Rain and Braille HD</dd></div>
-          <div><dt>Export</dt><dd>MP4 and GIF with the original sound, 4K with Pro</dd></div>
-          <div><dt>Uploads</dt><dd>0. Everything is drawn on your own device</dd></div>
-        </dl>
-        <div class="row">
-          <a class="btn amber" href="https://codedlens.com" target="_blank" rel="noopener">Open Coded Lens</a>
-          <a class="btn" href="https://azokistudios.com/codedlens/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-      <div class="piece-show">
+    <article class="show reveal" style="--accent:#9db8ff">
+      <div class="show-screen">
         <div class="view live" data-embed="https://codedlens.com/" data-w="1180" data-h="664" data-title="Coded Lens, running live">
           <img class="on" src="img/studio/share-codedlens.jpg" alt="Coded Lens: a picture rebuilt from rows of coloured letters" loading="lazy" width="1200" height="630">
           <button class="live-go" type="button">▶ Run the real tool here</button>
         </div>
-        <p class="caption">&gt; click and codedlens.com loads right in this frame. drop in your own clip.</p>
+      </div>
+      <div class="show-info">
+        <div class="show-name"><p class="show-kind">Web tool · any browser</p><h3>Coded Lens</h3></div>
+        <p class="show-line">Turn any video into ASCII art. Drop in a clip and download it as an MP4 or GIF for TikTok, Reels or Shorts. It runs entirely in your browser, so nothing is uploaded.</p>
+        <div class="show-buy">
+          <p class="show-status"><span class="dot live"></span>Live · free, with Pro</p>
+          <div class="row">
+            <a class="btn amber" href="https://codedlens.com" target="_blank" rel="noopener">Open Coded Lens</a>
+            <a class="btn" href="https://azokistudios.com/codedlens/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a>
+          </div>
+        </div>
       </div>
     </article>
   </section>
@@ -589,7 +525,6 @@
           <p class="piece-no"><b>07</b>Desktop game · Windows</p>
           <h3>Winterville</h3>
           <p>A pixel village that spends the winter on your desktop. Snow piles up on your real windows, snow folk parachute in and ride your cursor, and one calendar door a day grows the town all the way to Christmas.</p>
-          <p class="clock" id="xmasClock"></p>
           <p class="status"><i aria-hidden="true"></i>Coming soon, in time for Christmas.</p>
           <div class="row"><a class="btn sm" href="https://azokistudios.com/winterville/" target="_blank" rel="noopener">Read more <span class="arr" aria-hidden="true">↗</span></a></div>
         </div>
@@ -647,84 +582,7 @@
   </section>
 </div>
 
-<div class="waterline up" aria-hidden="true">
-  <div class="waves"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-  <p>↑ back to the surface</p>
-</div>
 
-<!-- ================================================================== ABOUT -->
-<section class="wrap" id="about" style="padding-top:clamp(24px,4vw,56px)">
-  <div class="head reveal"><p class="label"><b>About</b>Metro Detroit</p><h2>From top closer to <em>AI builder.</em></h2></div>
-  <div class="about">
-    <div class="story reveal">
-      <figure class="portrait" id="portrait"><img src="img/headshot.jpg" alt="Braydon Hart" width="440" height="550" loading="lazy" onerror="document.getElementById('portrait').remove()"></figure>
-      <p>I started as a loan officer in 2022 and was the top closer at my company in 2023. That led to Director, where I've led a team of 9 loan officers since 2024 and won the UWM Top 1% award in 2024 and 2025.</p>
-      <p>Leading taught me that my real strength is teaching. I coach people to own their work instead of doing it for them, and two reps I trained have become leaders themselves.</p>
-      <p>Along the way I started using AI to remove the busywork slowing my team down. Building the tool is half the job. Getting people to actually use it is the other half, and that's the work I want to do full time.</p>
-      <p>In 2026 I also started Azoki Studios, where I ship software of my own. Three live wallpapers are released and on sale, with a free web tool and desktop companions alongside them.</p>
-    </div>
-    <ul class="career reveal">
-      <li><span class="yr">2024 to now</span><b>Director, MortgagePros</b><span>Leads 9 licensed loan officers. 434 loans closed, UWM Top 1% in 2024 and 2025, 2 reps promoted into leadership.</span></li>
-      <li><span class="yr">2026</span><b>Founder, Azoki Studios</b><span>Seven products and three live sites. Code Sea, Code Realm and Desktop Reef are released and on sale; Hearthside, Coded Lens and Gremlets are free to use.</span></li>
-      <li><span class="yr">2026</span><b>AI builder</b><span>Claude, Claude Code, n8n and the OpenAI API. Google AI Essentials and 22 Anthropic Academy certificates.</span></li>
-      <li><span class="yr">2022 to 2024</span><b>Loan Officer, MortgagePros</b><span>#1 closer company wide in 2023. 84 loans in under two years, $30.6M lifetime volume.</span></li>
-      <li><span class="yr">2022 to 2024</span><b>Founder</b><span>A profitable Etsy shop of my own blanket and tapestry designs, now run by my AI crew as Azoki Market.</span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="wrap" id="credentials">
-  <div class="head reveal"><p class="label"><b>Credentials</b>Verify any of them</p><h2>Certified and licensed</h2></div>
-  <div class="creds">
-    <div class="cred card reveal">
-      <b>22 Anthropic Academy certificates</b>
-      <span>2026. Building with the Claude API, Model Context Protocol, Claude Code, Agent Skills, Subagents, Claude Enterprise and the AI Fluency series.</span>
-      <details><summary>Verify each one</summary>
-        <ul>
-          <li><a href="https://verify.skilljar.com/c/w9mtum4c6q64" target="_blank" rel="noopener">Building with the Claude API</a></li>
-          <li><a href="https://verify.skilljar.com/c/s94aje8bovt2" target="_blank" rel="noopener">Introduction to Model Context Protocol</a></li>
-          <li><a href="https://verify.skilljar.com/c/j3i9riv6sdbe" target="_blank" rel="noopener">Model Context Protocol: Advanced Topics</a></li>
-          <li><a href="https://verify.skilljar.com/c/gd2x4iekbgro" target="_blank" rel="noopener">Claude Code in Action</a></li>
-          <li><a href="https://verify.skilljar.com/c/mcke59rb4bte" target="_blank" rel="noopener">Claude Code 101</a></li>
-          <li><a href="https://verify.skilljar.com/c/43squgetcv9p" target="_blank" rel="noopener">Claude Platform 101</a></li>
-          <li><a href="https://verify.skilljar.com/c/e5tsdxbkbfio" target="_blank" rel="noopener">Introduction to Agent Skills</a></li>
-          <li><a href="https://verify.skilljar.com/c/je724n7gomna" target="_blank" rel="noopener">Introduction to Subagents</a></li>
-          <li><a href="https://verify.skilljar.com/c/kcxny87ku2de" target="_blank" rel="noopener">Deploying Claude Enterprise with Confidence</a></li>
-          <li><a href="https://verify.skilljar.com/c/b65x2a824mmw" target="_blank" rel="noopener">Claude with Amazon Bedrock</a></li>
-          <li><a href="https://verify.skilljar.com/c/y9esugpwmcs5" target="_blank" rel="noopener">Claude on Google Cloud</a></li>
-          <li><a href="https://verify.skilljar.com/c/2tprbbkz8coj" target="_blank" rel="noopener">Introduction to Claude Cowork</a></li>
-          <li><a href="https://verify.skilljar.com/c/8xfcvbgguu7f" target="_blank" rel="noopener">Claude 101</a></li>
-          <li><a href="https://verify.skilljar.com/c/apeugzrw2uky" target="_blank" rel="noopener">AI Capabilities and Limitations</a></li>
-          <li><a href="https://verify.skilljar.com/c/pn2z8aanqizs" target="_blank" rel="noopener">AI Fluency: Framework &amp; Foundations</a></li>
-          <li><a href="https://verify.skilljar.com/c/hmf9yrc4waza" target="_blank" rel="noopener">AI Fluency for Builders</a></li>
-          <li><a href="https://verify.skilljar.com/c/gm2vpbrpeva4" target="_blank" rel="noopener">AI Fluency for Creative Work</a></li>
-          <li><a href="https://verify.skilljar.com/c/pfs7ph6gdvd5" target="_blank" rel="noopener">AI Fluency for Small Businesses</a></li>
-          <li><a href="https://verify.skilljar.com/c/rf4cr8riqfbh" target="_blank" rel="noopener">Teaching AI Fluency</a></li>
-          <li><a href="https://verify.skilljar.com/c/j44fui4ovswg" target="_blank" rel="noopener">AI Fluency for Educators</a></li>
-          <li><a href="https://verify.skilljar.com/c/58xg27n5uw6y" target="_blank" rel="noopener">AI Fluency for Nonprofits</a></li>
-          <li><a href="https://verify.skilljar.com/c/2che6bedmb8u" target="_blank" rel="noopener">AI Fluency for Students</a></li>
-        </ul>
-      </details>
-    </div>
-    <div class="cred card reveal">
-      <b>Google AI Essentials Specialization</b>
-      <span>Google via Coursera, 2026. All 5 courses, from prompting to using AI responsibly.</span>
-      <details><summary>Verify each one</summary>
-        <ul>
-          <li><a href="https://www.coursera.org/account/accomplishments/specialization/Q9ZECKJF50Y7" target="_blank" rel="noopener">Google AI Essentials Specialization</a></li>
-          <li><a href="https://www.coursera.org/account/accomplishments/verify/ZQ2U307W0J37" target="_blank" rel="noopener">Introduction to AI</a></li>
-          <li><a href="https://www.coursera.org/account/accomplishments/verify/7VJ1HPJWRN6M" target="_blank" rel="noopener">Maximize Productivity With AI Tools</a></li>
-          <li><a href="https://www.coursera.org/account/accomplishments/verify/TQ71KZD5PM8L" target="_blank" rel="noopener">Discover the Art of Prompting</a></li>
-          <li><a href="https://www.coursera.org/account/accomplishments/verify/VZJYOHOR675Z" target="_blank" rel="noopener">Use AI Responsibly</a></li>
-          <li><a href="https://www.coursera.org/account/accomplishments/verify/RZWYR7ACTWEI" target="_blank" rel="noopener">Stay Ahead of the AI Curve</a></li>
-        </ul>
-      </details>
-    </div>
-    <div class="cred card reveal">
-      <b>Licensed Mortgage Loan Originator</b>
-      <span>NMLS #1925352. Comfortable working inside regulated, compliance heavy workflows.</span>
-    </div>
-  </div>
   <p class="toolline"><b>Tools I build with:</b> Claude and Claude Code, the Claude and OpenAI APIs, n8n, MCP, Google Sheets and Gmail automations, Swift and JavaScript, WebGL, Tauri and Rust, Printify and Amazon Seller, Salesforce, Dialpad and Bonzo.</p>
 </section>
 
@@ -792,7 +650,6 @@
 </dialog>
 
 <script type="module" src="js/portfolio.js"></script>
-<script src="js/sea.js" defer></script>
 <script src="js/site.js" defer></script>
 <script>/* old links to #made moved to the Made page */if(['#made','#stitch','#azoki'].includes(location.hash))location.replace('made/'+location.hash)</script>
 <script>/* old resume links point to #sales-demo */if(location.hash==='#sales-demo')addEventListener('load',()=>document.getElementById('demo-video')?.scrollIntoView())</script>
