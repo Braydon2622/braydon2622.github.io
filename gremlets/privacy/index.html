@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gremlets Privacy Policy</title>
+<meta name="description" content="What the Gremlets apps collect (nothing) and how notes between your devices stay private.">
+<link rel="canonical" href="https://braydonhartai.com/gremlets/privacy/">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../legal.css">
+</head>
+<body>
+<main>
+  <p class="crumb"><a href="/">Braydon Hart</a> · <a href="../support/">Gremlets support</a></p>
+  <h1>Gremlets Privacy Policy</h1>
+  <p class="date">Last updated November 24, 2026</p>
+
+  <p class="lead">Gremlets doesn't collect your data. There are no accounts, no analytics, no ads and no tracking.
+  This page covers the Gremlets iPhone and Apple Watch app, the Gremlets Mac app and Gremlets for Windows.</p>
+
+  <h2>What stays on your devices</h2>
+  <p>Your code, your Claude Code sessions, your files and your diffs stay on your own computers. The apps keep their
+  settings, the pairing between your devices, and the last widget picture on the device itself.</p>
+
+  <h2>What travels between your devices</h2>
+  <p>To bring Claude's questions to your phone and your answers back, your computer and your phone pass small notes
+  to each other: what's waiting for you, a session's status and timer, your reply, and (if you ask for a review) the
+  changes Claude made. Before a note leaves a device it is sealed with AES-GCM encryption using a key that exists only
+  on your paired devices. It's shared once, when you pair by scanning a QR code.</p>
+  <p>The sealed notes travel through Apple's iCloud (CloudKit) and, on older setups, the public relay ntfy.sh. Neither
+  can read them, and neither can we. Alerts reach your phone through Apple's push service, sent directly from your own
+  computer. The push tokens that make this work are inside the sealed notes.</p>
+
+  <h2>Weather</h2>
+  <p>If you set a city in the Mac app, it asks a public weather service for that city's forecast to draw the weather in
+  the widgets. Only the city goes out, never your location from your device.</p>
+
+  <h2>Purchases</h2>
+  <p>Gremlets Plus subscriptions are handled entirely by Apple through the App Store. We never see your payment details;
+  the app only checks whether your subscription is active.</p>
+
+  <h2>Children</h2>
+  <p>Gremlets is a tool for developers and is not directed at children under 13. It collects no information from anyone.</p>
+
+  <h2>Deleting everything</h2>
+  <p>Unpair in the app (or delete it) and the pairing key is gone. The sealed notes on iCloud can't be opened without it.</p>
+
+  <h2>Changes and contact</h2>
+  <p>If this policy changes, this page will show the new date. Questions: <a href="mailto:braydon@braydonhartai.com">braydon@braydonhartai.com</a>.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,21 @@
+/* The Gremlets privacy and support pages: the site's paper and ink, one readable column. */
+:root {
+  --paper: #f3f0e8; --ink: #111512; --soft: #4a524c; --line: rgba(17, 21, 18, .14); --link: #2f6b3a;
+  --display: "Bricolage Grotesque", system-ui, sans-serif; --body: "Hanken Grotesk", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #0f1622; --ink: #e6eef8; --soft: #9aacc4; --line: rgba(150, 185, 230, .17); --link: #8fd18a; }
+}
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; }
+main { max-width: 680px; margin: 0 auto; padding: 56px 16px 80px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+h1 { font-size: clamp(32px, 6vw, 44px); margin: 12px 0 4px; }
+h2 { font-size: 22px; margin: 36px 0 8px; padding-top: 20px; border-top: 1px solid var(--line); }
+h3 { font-size: 18px; margin: 24px 0 4px; }
+.lead { font-size: 19px; }
+.date, .crumb { color: var(--soft); font-size: 15px; margin: 0; }
+a { color: var(--link); }
+code { font-size: .92em; background: var(--line); padding: 1px 5px; border-radius: 5px; }
+ol { padding-left: 1.3em; }
+li { margin: 6px 0; }
